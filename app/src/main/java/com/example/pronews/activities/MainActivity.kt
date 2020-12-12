@@ -1,4 +1,4 @@
-package com.example.exchange
+package com.example.pronews.activities
 
 import android.content.Context
 import android.content.Intent
@@ -16,7 +16,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.exchange.databinding.ActivityMainBinding
+import com.example.pronews.network.ApiService
+import com.example.pronews.R
+import com.example.pronews.adapters.ListAdapter
+import com.example.pronews.databinding.ActivityMainBinding
+import com.example.pronews.models.SingleNews
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlin.properties.Delegates
@@ -27,7 +31,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var sharedPref: SharedPreferences
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: com.example.exchange.ListAdapter
+    private lateinit var viewAdapter: ListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private var period by Delegates.notNull<Int>()
@@ -110,21 +114,23 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun getAndSetDataForRecyclerView() {
-        val dataSet: MutableList<DayInfo> = mutableListOf()
+        val newsSet: MutableList<SingleNews> = mutableListOf()
 
-        val apiService = ApiService.create()
-        apiService.search(crypt, currency, period.toString())
+        val temp = ApiService.create()
+        temp.news()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
-                result.Data.List.map { elem -> dataSet.add(elem) }
-                setRecyclerViewData(dataSet);
+                result.List.map { elem -> newsSet.add(elem) }
+                result.List.map { elem -> elem.author?.let { Log.v("KEK WHAT", it) } }
+                setRecyclerViewData(newsSet);
             }, { error ->
+                error.message?.let { Log.v("Error", it) }
                 error.printStackTrace()
             })
     }
 
-    private fun setRecyclerViewData(dataSet: MutableList<DayInfo>) {
+    private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
         viewManager = LinearLayoutManager(this)
         viewAdapter = ListAdapter { item -> itemClicked(item) }
         viewAdapter.data = dataSet
@@ -137,13 +143,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
     }
 
-    private fun itemClicked(item: DayInfo) {
+    private fun itemClicked(item: SingleNews) {
         Toast.makeText(
             this,
-            "OPEN: " + item.open + "\n" +
-                    "CLOSE: " + item.close + "\n" +
-                    "HIGH: " + item.high + "\n" +
-                    "LOW: " + item.low + "\n",
+            "author: " + item.author + "\n" +
+                    "category: " + item.category + "\n" +
+                    "country: " + item.country + "\n" +
+                    "description: " + item.description + "\n",
             Toast.LENGTH_LONG
         ).show()
     }

@@ -1,15 +1,17 @@
-package com.example.exchange
+package com.example.pronews.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pronews.R
+import com.example.pronews.models.SingleNews
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListAdapter(private val clickListener: (DayInfo) -> Unit) : RecyclerView.Adapter<ListAdapter.ElemViewHolder> () {
-    var data = mutableListOf<DayInfo> ()
+class ListAdapter(private val clickListener: (SingleNews) -> Unit) : RecyclerView.Adapter<ListAdapter.ElemViewHolder> () {
+    var data = mutableListOf<SingleNews> ()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -29,18 +31,19 @@ class ListAdapter(private val clickListener: (DayInfo) -> Unit) : RecyclerView.A
     }
 
     class ElemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
-        private val dateViewRow: TextView = itemView.findViewById(R.id.dateId)
-        private val textViewRow: TextView = itemView.findViewById(R.id.textId)
-        private val currencyViewRow : TextView = itemView.findViewById(R.id.currencyId)
+        private val authorTextView: TextView = itemView.findViewById(R.id.authorId)
+        private val categoryTextView: TextView = itemView.findViewById(R.id.categoryId)
+        private val countryTextView : TextView = itemView.findViewById(R.id.countryId)
 
         fun setDataAndListener(
-            data: DayInfo,
+            data: SingleNews,
             currency: String,
-            clickListener: (DayInfo) -> Unit
+            clickListener: (SingleNews) -> Unit
         ) {
-            dateViewRow.text = getDateTime(data.time)
-            textViewRow.text = data.high
-            currencyViewRow.text= currency
+//            dateViewRow.text = getDateTime(data.time)
+            authorTextView.text = data.author
+            categoryTextView.text = data.category
+            countryTextView.text= data.country
             itemView.setOnClickListener{
                 clickListener(data)
             }

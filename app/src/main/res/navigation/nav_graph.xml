@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.exchange.SettingsActivity$SettingsFragment"
+        android:name="com.example.pronews.activities.SettingsActivity$SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/settings_activity" >
         <action

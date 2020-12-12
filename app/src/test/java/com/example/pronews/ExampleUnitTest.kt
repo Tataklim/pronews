@@ -1,4 +1,4 @@
-package com.example.exchange
+package com.example.pronews
 
 import org.junit.Test
 

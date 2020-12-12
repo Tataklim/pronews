@@ -1,7 +1,6 @@
-package com.example.exchange
+package com.example.pronews.activities
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +8,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.example.pronews.R
 
 
 class SettingsActivity : AppCompatActivity() {
