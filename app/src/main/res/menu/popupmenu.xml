@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/menugroup1">
+        <item
+            android:id="@+id/menu1"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/btc" />
+        <item
+            android:id="@+id/menu2"
+            android:title="@string/eth" />
+        <item
+            android:id="@+id/menu3"
+            android:title="@string/ltc" />
+        <item
+            android:id="@+id/menu4"
+            android:title="@string/link" />
+        <item
+            android:id="@+id/menu5"
+            android:title="@string/bch" />
+    </group>
+
+
+</menu>

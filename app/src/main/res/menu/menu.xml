@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item android:id="@+id/action_settings"
+        android:title="@string/settings"
+        app:showAsAction="never"
+        android:orderInCategory="1">
+    </item>
+    <item android:id="@+id/update_settings"
+        android:title="@string/update"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2">
+    </item>
+</menu>

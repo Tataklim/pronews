@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">exchange</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="period_header">Period</string>
+    <string name="currency_header">Currency</string>
+    <string name="sync_header">Sync</string>
+    <string name="crypto_header">Crypto</string>
+
+    <!-- Messages Preferences -->
+    <string name="period_title">Show</string>
+    <string name="currency_title">Currency</string>
+    <string name="crypto_title">Crypto</string>
+
+
+    <string name="preference_file_key">com.example.exchange.shared.pref</string>
+    <string name="preference_file_key_currency_default">RUB</string>
+    <string name="preference_file_key_crypto_default">BTC</string>
+
+    <string name="preference_file_key_currency">currency</string>
+    <string name="preference_file_key_period">period</string>
+    <string name="preference_file_key_crypto">crypto</string>
+    <string name="cost">Cost</string>
+    <string name="currency">Currency</string>
+    <string name="date">Date</string>
+    <string name="bitcoin">bitcoin</string>
+    <string name="https_min_api_cryptocompare_com">https://min-api.cryptocompare.com/</string>
+    <string name="settings">Settings</string>
+    <string name="update">Update</string>
+</resources>

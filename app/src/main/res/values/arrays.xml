@@ -1,0 +1,20 @@
+<resources>
+    <!-- Currency Preference -->
+
+    <string-array name="currency_entries">
+        <item>RUB</item>
+        <item>USD</item>
+        <item>UKR</item>
+        <item>EUR</item>
+        <item>JPY</item>
+    </string-array>
+
+    <string-array name="currency_values">
+        <item>RUB</item>
+        <item>USD</item>
+        <item>UKR</item>
+        <item>EUR</item>
+        <item>JPY</item>
+    </string-array>
+
+</resources>
