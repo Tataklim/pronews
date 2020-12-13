@@ -1,76 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize">
 
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".activities.MainActivity">
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/mobile_navigation" />
 
-
-        <Button
-            android:id="@+id/buttonId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/bitcoin"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="107dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="@string/date"
-                android:textColor="#5A5A5A"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="172dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="@string/cost"
-                android:textColor="#5A5A5A"
-                android:textSize="15sp"/>
-            <TextView
-                android:layout_width="87dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="@string/currency"
-                android:textColor="#5A5A5A"
-                android:textSize="15sp"/>
-
-        </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewId"
-            android:layout_width="match_parent"
-            android:layout_height="424dp"
-            android:scrollbars="vertical">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <TextView
-            android:id="@+id/url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:padding="2dp"
-            android:text="@string/https_min_api_cryptocompare_com"
-            android:textColor="#4053FF"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

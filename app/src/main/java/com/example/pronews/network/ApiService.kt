@@ -15,7 +15,7 @@ const val ACCESS_KEY = "ac3fe69beb08d6f5542cf26dea4ce9e5";
 interface ApiService {
 
     @GET("news")
-    fun news(@Query("access_key") access_key: String = ACCESS_KEY): Observable<NewsData>
+    fun news(@Query("languages") lang: String = "ru", @Query("access_key") access_key: String = ACCESS_KEY): Observable<NewsData>
 
     companion object Factory {
         private val moshi = Moshi.Builder()

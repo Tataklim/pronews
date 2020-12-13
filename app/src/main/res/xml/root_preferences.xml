@@ -1,25 +1,30 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/period_header">
-
-        <EditTextPreference
-            app:key="period"
-            app:title="@string/period_title"
-            android:defaultValue="@integer/preference_file_key_period_default"
-            android:inputType="number"
+    <PreferenceCategory app:title="@string/settings_general_header">
+        <ListPreference
+            app:defaultValue="@string/preference_file_key_language_default"
+            app:entries="@array/app_languages"
+            app:entryValues="@array/app_languages"
+            app:key="@string/preference_file_key_language"
+            app:title="@string/settings_language_desc"
             app:useSimpleSummaryProvider="true" />
-
+        <ListPreference
+            app:defaultValue="@string/preference_file_key_theme_default"
+            app:entries="@array/themes"
+            app:entryValues="@array/themes"
+            app:key="@string/preference_file_key_theme"
+            app:title="@string/settings_theme_desc"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/currency_header">
-        <ListPreference
-            app:defaultValue="RUB"
-            app:entries="@array/currency_entries"
-            app:entryValues="@array/currency_values"
-            app:key="currency"
-            app:title="@string/currency_title"
-            app:useSimpleSummaryProvider="true" />
+    <PreferenceCategory app:title="@string/settings_network_header">
+        <CheckBoxPreference
+            app:title="@string/settings_check_new_desc"
+            app:summaryOn="@string/settings_check_new_on"
+            app:summaryOff="@string/settings_check_new_off"
+            app:key="@string/preference_file_key_check_new"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>

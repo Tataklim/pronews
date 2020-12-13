@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preference_file_key">com.example.pronews.shared.pref</string>
+    <string name="preference_file_key_language">language</string>
+    <string name="preference_file_key_language_default">ru</string>
+    <string name="preference_file_key_theme">theme</string>
+    <string name="preference_file_key_theme_default">light</string>
+    <string name="preference_file_key_check_new">check_new</string>
+    <bool name="preference_file_key_check_new_defaults">true</bool>
+</resources>

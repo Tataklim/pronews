@@ -1,12 +1,15 @@
 package com.example.pronews.adapters
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pronews.R
 import com.example.pronews.models.SingleNews
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,7 +20,7 @@ class ListAdapter(private val clickListener: (SingleNews) -> Unit) : RecyclerVie
             notifyDataSetChanged()
         }
 
-    var currency = String ()
+//    var currency = String ()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElemViewHolder {
         return ElemViewHolder.from(parent)
@@ -27,23 +30,31 @@ class ListAdapter(private val clickListener: (SingleNews) -> Unit) : RecyclerVie
 
     override fun onBindViewHolder(holder: ElemViewHolder, position: Int) {
         val item = data[position]
-        holder.setDataAndListener(item, currency, clickListener)
+        holder.setDataAndListener(item, clickListener)
     }
 
     class ElemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
-        private val authorTextView: TextView = itemView.findViewById(R.id.authorId)
+        private val titleTextView: TextView = itemView.findViewById(R.id.titleId)
         private val categoryTextView: TextView = itemView.findViewById(R.id.categoryId)
         private val countryTextView : TextView = itemView.findViewById(R.id.countryId)
+        private val image : ImageView = itemView.findViewById(R.id.imageId)
 
         fun setDataAndListener(
             data: SingleNews,
-            currency: String,
             clickListener: (SingleNews) -> Unit
         ) {
 //            dateViewRow.text = getDateTime(data.time)
-            authorTextView.text = data.author
+            titleTextView.text = data.title
             categoryTextView.text = data.category
             countryTextView.text= data.country
+//            if (data.image.equals(null)) {
+                image.setImageResource(R.drawable.ic_launcher_background)
+//            } else {
+//                val newurl = URL(data.image)
+//                val pic = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+//                image.setImageBitmap(pic);
+//            }
+//            image.setImageURI(data.image)
             itemView.setOnClickListener{
                 clickListener(data)
             }

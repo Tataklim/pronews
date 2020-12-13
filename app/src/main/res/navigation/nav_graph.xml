@@ -12,7 +12,11 @@
         <action
             android:id="@+id/action_startFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_singleNewsFragment"
+            app:destination="@id/newsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.pronews.activities.SettingsActivity$SettingsFragment"
@@ -20,6 +24,15 @@
         tools:layout="@layout/settings_activity" >
         <action
             android:id="@+id/action_settingsFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:label="fragment_single_news"
+        tools:layout="@layout/activity_single_news" >
+        <action
+            android:id="@+id/action_startFragment_to_singleNewsFragment"
             app:destination="@id/startFragment" />
     </fragment>
 </navigation>

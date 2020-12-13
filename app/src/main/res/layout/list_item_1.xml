@@ -13,29 +13,61 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardElevation="8dp"
-        app:contentPadding="16dp"
+        app:contentPadding="8dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="80dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="107dp"
-                android:layout_height="match_parent"
-                android:id="@+id/authorId" />
-            <TextView
-                android:layout_width="172dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:id="@+id/categoryId"
-                android:textSize="20sp" />
-            <TextView
-                android:layout_width="107dp"
-                android:layout_height="match_parent"
-                android:id="@+id/countryId" />
+            <ImageView
+                android:id="@+id/imageId"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/card_image_desc" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/titleId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:paddingLeft="4dp"
+                    android:paddingStart="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:orientation="vertical"
+                android:layout_weight="0">
+
+                <TextView
+                    android:id="@+id/categoryId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="end|top"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/countryId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end|bottom"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
