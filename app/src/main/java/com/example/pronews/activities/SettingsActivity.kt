@@ -2,8 +2,11 @@ package com.example.pronews.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat.recreate
 import androidx.preference.*
 import com.example.pronews.R
 
@@ -70,9 +73,19 @@ class SettingsActivity : AppCompatActivity() {
                 }
             prevTheme.onPreferenceChangeListener =
                 Preference.OnPreferenceChangeListener { _, newValue ->
+                    var newValueTranslated = newValue
+                    when(newValue) {
+                        "темный" ->  newValueTranslated = "dark"
+                        "светлый" ->  newValueTranslated = "light"
+                    }
+                    Log.v("KEK WHAT", newValueTranslated.toString())
+                    when(newValueTranslated) {
+                        "light" ->  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        "dark" ->  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
                     sharedPref.edit().putString(
                         getString(R.string.preference_file_key_theme),
-                        newValue.toString()
+                        newValueTranslated.toString()
                     ).apply()
                     true
                 }

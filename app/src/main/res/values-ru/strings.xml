@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Pronews</string>
+    <string name="title_activity_settings">Настройкикек</string>
+
+    <!-- Settings -->
+    <string name="settings_general_header">Общие настройки</string>
+    <string name="settings_network_header">Настройки сети</string>
+
+    <string name="settings_theme_desc">тема</string>
+    <string name="settings_language_desc">язык</string>
+    <string name="settings_check_new_desc">проверка обновлений</string>
+
+    <string name="settings_check_new_on">вкл</string>
+    <string name="settings_check_new_off">выкл</string>
+
+
+    <string name="card_image_desc">News image</string>
+
+    <string name="title_activity_single_news">Страница новости</string>
+    <string name="action_settings">Настройкиии</string>
+    <string name="title_home">Главная</string>
+    <string name="title_liked">Избранное</string>
+    <string name="title_notifications">Временно</string>
+</resources>

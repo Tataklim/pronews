@@ -9,7 +9,7 @@
     </item>
     <item android:id="@+id/update_settings"
         android:title="@string/update"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:orderInCategory="2">
     </item>
 </menu>

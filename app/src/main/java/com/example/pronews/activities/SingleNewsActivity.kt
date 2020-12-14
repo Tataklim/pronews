@@ -1,11 +1,21 @@
 package com.example.pronews.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.example.pronews.R
+import com.example.pronews.adapters.DEFAULT_IMAGE
+import com.example.pronews.utils.MyApplication
+import com.example.pronews.utils.SerializedSingleNews
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import com.example.pronews.R
+
 
 class SingleNewsActivity : AppCompatActivity() {
 
@@ -13,12 +23,45 @@ class SingleNewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_news)
         setSupportActionBar(findViewById(R.id.toolbar))
-        findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).title = title
+
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setItemData()
+
+        setUrlEventListener()
+    }
+
+    private fun setItemData() {
+        val i = intent
+        val item: SerializedSingleNews? = i.getSerializableExtra("item") as SerializedSingleNews?
+        findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).title = item?.title
+
+        if (!item?.image.equals(null)) {
+            Glide.with(MyApplication.getContext()).load(DEFAULT_IMAGE).into(findViewById<ImageView>(R.id.singleImageId))
+        } else {
+            Glide.with(MyApplication.getContext()).load(item?.image).into(findViewById<ImageView>(R.id.singleImageId))
+        }
+
+        findViewById<TextView>(R.id.singleCategoryId).text = item?.category
+        findViewById<TextView>(R.id.singleCountryId).text = item?.country
+        findViewById<TextView>(R.id.singleAuthorId).text = item?.author
+        findViewById<TextView>(R.id.singleDescriptionId).text = item?.description
+        findViewById<TextView>(R.id.singleDate).text = item?.published_at
+        findViewById<TextView>(R.id.singleUrl).text = item?.url
+    }
+
+    private fun setUrlEventListener() {
+        val urlTextView = findViewById<TextView>(R.id.singleUrl)
+        urlTextView.setOnClickListener {
+            val parsedUri: Uri = Uri.parse(urlTextView.text.toString())
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(parsedUri.toString())
+            startActivity(intent)
+        }
     }
 }

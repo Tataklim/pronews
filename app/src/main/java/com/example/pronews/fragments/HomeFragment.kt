@@ -2,7 +2,6 @@ package com.example.pronews.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,8 @@ import com.example.pronews.R
 import com.example.pronews.activities.SingleNewsActivity
 import com.example.pronews.adapters.ListAdapter
 import com.example.pronews.models.SingleNews
-import com.example.pronews.network.ApiService
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.example.pronews.utils.NewsData
+import com.example.pronews.utils.SerializedSingleNews
 
 class HomeFragment : Fragment() {
 
@@ -42,19 +40,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAndSetDataForRecyclerView() {
-        val newsSet: MutableList<SingleNews> = mutableListOf()
-
-        val temp = ApiService.create()
-        temp.news()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                result.List.map { elem -> newsSet.add(elem) }
-                setRecyclerViewData(newsSet);
-            }, { error ->
-                error.message?.let { Log.v("Error", it) }
-                error.printStackTrace()
-            })
+        if (NewsData.checkIfEmpty()) {
+            NewsData.update(::setRecyclerViewData)
+        } else {
+            setRecyclerViewData(NewsData.getData())
+        }
     }
 
     private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
@@ -71,6 +61,8 @@ class HomeFragment : Fragment() {
 
     private fun itemClicked(item: SingleNews) {
         val intent = Intent(activity, SingleNewsActivity::class.java)
+        val itemSerialized = SerializedSingleNews(item)
+        intent.putExtra("item", itemSerialized)
         startActivity(intent)
     }
 }
