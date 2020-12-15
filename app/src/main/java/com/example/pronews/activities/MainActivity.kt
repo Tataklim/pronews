@@ -11,8 +11,11 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -41,17 +44,24 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var viewAdapter: ListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    private var category by Delegates.notNull<String>()
+    private var country by Delegates.notNull<String>()
+
     private var language by Delegates.notNull<String>()
     private var theme by Delegates.notNull<String>()
     private var checkNew by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setValuesFromSharedPref()
 
         MyApplication.Companion.setContext(this);
 
         setContentView(R.layout.activity_main)
+
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -62,17 +72,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        val locale = Locale("ru")
-        Locale.setDefault(locale)
-        val config: Configuration = baseContext.resources.configuration
-        config.locale = locale
-        baseContext.resources.updateConfiguration(
-            config,
-            baseContext.resources.displayMetrics
-        )
-
     }
 
     override fun onResume() {
@@ -106,17 +105,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         return super.onOptionsItemSelected(item)
     }
 
-
     private fun setLocale() {
         val dm: DisplayMetrics = resources.displayMetrics
         val config: Configuration = resources.configuration
         config.setLocale(Locale(language.toLowerCase()))
         resources.updateConfiguration(config, dm)
-
-//        val locale = Locale(language)
-//        resources.configuration.setLocale(locale)
-//        resources.updateConfiguration(resources.configuration, null)
-//        recreate()
     }
 
     private fun setValuesFromSharedPref() {
@@ -144,6 +137,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             defaultTheme
         ).toString()
 
+        category = ""
+        country = ""
+
         when(theme) {
             "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -151,13 +147,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun getAndSetDataForRecyclerView() {
+        Log.v("KEK MAIN", "getAndSetDataForRecyclerView")
         val newsSet: MutableList<SingleNews> = mutableListOf()
-
         val temp = ApiService.create()
-        temp.news()
+        temp.news(category, country)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
+                Log.v("KEK WHAT SIZE", result.List.size.toString())
                 result.List.map { elem -> newsSet.add(elem) }
                 setRecyclerViewData(newsSet);
             }, { error ->
@@ -167,6 +164,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
+        Log.v("KEK WHAT", dataSet.size.toString())
         viewManager = LinearLayoutManager(this)
         viewAdapter = ListAdapter { item -> itemClicked(item) }
         viewAdapter.data = dataSet
@@ -183,83 +181,45 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         startActivity(intent)
     }
 
-//    private fun setCryptoButtonEventListener() {
-//        val popupMenu = PopupMenu(this, binding.buttonId)
-//        popupMenu.inflate(R.menu.popupmenu)
-//        popupMenu.setOnMenuItemClickListener {
-//            when (it.itemId) {
-//                R.id.menu1 -> {
-//                    binding.buttonId.text = "Bitcoin"
-//                    sharedPref.edit().putString(
-//                        getString(R.string.preference_file_key_crypto),
-//                        getString(R.string.btc)
-//                    ).apply()
-//                    true
-//                }
-//                R.id.menu2 -> {
-//                    binding.buttonId.text = "Ethereum"
-//                    sharedPref.edit().putString(
-//                        getString(R.string.preference_file_key_crypto),
-//                        getString(R.string.eth)
-//                    ).apply()
-//                    true
-//                }
-//                R.id.menu3 -> {
-//                    binding.buttonId.text = "Litecoin"
-//                    sharedPref.edit().putString(
-//                        getString(R.string.preference_file_key_crypto),
-//                        getString(R.string.ltc)
-//                    ).apply()
-//                    true
-//                }
-//                R.id.menu4 -> {
-//                    binding.buttonId.text = "Chainlink"
-//                    sharedPref.edit().putString(
-//                        getString(R.string.preference_file_key_crypto),
-//                        getString(R.string.link)
-//                    ).apply()
-//                    true
-//                }
-//                R.id.menu5 -> {
-//                    binding.buttonId.text = "Bitcoin Cash"
-//                    sharedPref.edit().putString(
-//                        getString(R.string.preference_file_key_crypto),
-//                        getString(R.string.bch)
-//                    ).apply()
-//                    true
-//                }
-//
-//                else -> false
-//            }
-//        }
-//        binding.buttonId.setOnClickListener {
-//            popupMenu.show()
-//        }
-//    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             resources.getString(R.string.preference_file_key_language) -> {
                 val defaultLanguage =
                     resources.getString(R.string.preference_file_key_language_default)
                 language = sharedPref.getString(key, defaultLanguage).toString()
-                getAndSetDataForRecyclerView()
-                setLocale()
+                Log.v("KEK onShared", resources.getString(R.string.preference_file_key_language))
+//                getAndSetDataForRecyclerView()
+//                setLocale()
             }
             resources.getString(R.string.preference_file_key_theme) -> {
                 val defaultTheme =
                     resources.getString(R.string.preference_file_key_theme_default)
                 theme = sharedPref.getString(key, defaultTheme).toString()
-                getAndSetDataForRecyclerView()
+                Log.v("KEK onShared", resources.getString(R.string.preference_file_key_theme))
+//                getAndSetDataForRecyclerView()
             }
             resources.getString(R.string.preference_file_key_check_new) -> {
                 val defaultCheckNew =
                     resources.getBoolean(R.bool.preference_file_key_check_new_defaults)
                 checkNew = sharedPref.getBoolean(key, defaultCheckNew)
-                getAndSetDataForRecyclerView()
+                Log.v("KEK onShared", resources.getString(R.string.preference_file_key_check_new))
+
+//                getAndSetDataForRecyclerView()
             }
+//            resources.getString(R.string.preference_file_key_category) -> {
+//                val defaultCategory =
+//                    resources.getString(R.string.preference_file_key_category_default)
+//                category = sharedPref.getString(key, defaultCategory).toString()
+//                getAndSetDataForRecyclerView()
+//            }
+//            resources.getString(R.string.preference_file_key_country) -> {
+//                val defaultCountry =
+//                    resources.getString(R.string.preference_file_key_country_default)
+//                country = sharedPref.getString(key, defaultCountry).toString()
+//                getAndSetDataForRecyclerView()
+//            }
             else -> {
-                Log.v("KEK WHAT", "Error")
+                Log.v("KEK onShared", "Error")
             }
         }
     }

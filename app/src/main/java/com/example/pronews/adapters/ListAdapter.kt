@@ -1,7 +1,6 @@
 package com.example.pronews.adapters
 
-import android.content.Context
-import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,6 @@ import com.bumptech.glide.Glide
 import com.example.pronews.R
 import com.example.pronews.models.SingleNews
 import com.example.pronews.utils.MyApplication
-import java.net.URL
-import java.security.AccessController.getContext
-import java.text.SimpleDateFormat
-import java.util.*
 
 var DEFAULT_IMAGE = "https://mariupolrada.gov.ua/uploads/ckeditor/4.%20%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D1%8F%D0%BD%D0%B0%D0%BC/%D0%95%D0%BA%D0%BE%D0%BB%D0%BE%D0%B3%D1%96%D1%8F/%D0%97%D0%A0/%D1%84%D0%BE%D1%82%D0%BE/nophoto.png"
 
@@ -48,7 +43,6 @@ class ListAdapter(private val clickListener: (SingleNews) -> Unit) :
             data: SingleNews,
             clickListener: (SingleNews) -> Unit
         ) {
-//            dateViewRow.text = getDateTime(data.time)
             titleTextView.text = data.title
             categoryTextView.text = data.category
             countryTextView.text = data.country
@@ -60,19 +54,12 @@ class ListAdapter(private val clickListener: (SingleNews) -> Unit) :
             itemView.setOnClickListener {
                 clickListener(data)
             }
-
-        }
-
-        private fun getDateTime(s: String): String {
-            val sdf = SimpleDateFormat("yyyy/MM/dd")
-            val netDate = Date(s.toLong() * 1000)
-            return sdf.format(netDate)
         }
 
         companion object {
             fun from(parent: ViewGroup): ElemViewHolder {
                 val context = parent.context
-                val layoutIdForListItem = R.layout.list_item_1
+                val layoutIdForListItem = R.layout.list_item
                 val inflater = LayoutInflater.from(context)
                 val shouldAttachToParentImmediately = false
                 val view = inflater.inflate(

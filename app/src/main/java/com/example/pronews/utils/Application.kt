@@ -9,7 +9,7 @@ abstract class MyApplication {
         private lateinit var context: Context
 
         fun setContext(con: Context) {
-            context=con
+            context = con
         }
 
         fun getContext(): Context {

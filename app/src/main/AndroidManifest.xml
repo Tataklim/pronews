@@ -13,11 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pronews"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        android:configChanges="locale|orientation">
         <activity
             android:name=".activities.SingleNewsActivity"
             android:label="@string/title_activity_single_news"
-            android:theme="@style/Theme.Pronews.NoActionBar" />
+            android:theme="@style/Theme.Pronews.NoActionBar"/>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +27,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity">
-            android:parentActivityName=".MainActivity"
+            android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:configChanges="locale|orientation">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.pronews.activities.MainActivity" />
+                android:value="com.example.pronews.activities.MainActivity"
+                android:configChanges="locale|orientation"/>
         </activity>
     </application>
 

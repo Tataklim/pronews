@@ -7,4 +7,9 @@
     <string name="preference_file_key_theme_default">dark</string>
     <string name="preference_file_key_check_new">check_new</string>
     <bool name="preference_file_key_check_new_defaults">true</bool>
+
+    <string name="preference_file_key_category" translatable="false">category</string>
+    <string name="preference_file_key_category_default" translatable="false">general</string>
+    <string name="preference_file_key_country" translatable="false">country</string>
+    <string name="preference_file_key_country_default" translatable="false">ru</string>
 </resources>

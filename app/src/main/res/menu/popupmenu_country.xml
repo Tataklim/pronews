@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/menugroup_country">
+        <item
+            android:id="@+id/menu_country_de"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/de" />
+        <item
+            android:id="@+id/menu_country_en"
+            android:title="@string/en" />
+        <item
+            android:id="@+id/menu_country_fr"
+            android:title="@string/fr" />
+        <item
+            android:id="@+id/menu_country_ru"
+            android:title="@string/ru" />
+    </group>
+</menu>

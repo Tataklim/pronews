@@ -15,6 +15,8 @@ import com.example.pronews.utils.SerializedSingleNews
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SingleNewsActivity : AppCompatActivity() {
@@ -41,7 +43,7 @@ class SingleNewsActivity : AppCompatActivity() {
         val item: SerializedSingleNews? = i.getSerializableExtra("item") as SerializedSingleNews?
         findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).title = item?.title
 
-        if (!item?.image.equals(null)) {
+        if (item?.image.equals(null)) {
             Glide.with(MyApplication.getContext()).load(DEFAULT_IMAGE).into(findViewById<ImageView>(R.id.singleImageId))
         } else {
             Glide.with(MyApplication.getContext()).load(item?.image).into(findViewById<ImageView>(R.id.singleImageId))

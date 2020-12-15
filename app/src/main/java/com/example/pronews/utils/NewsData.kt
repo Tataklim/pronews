@@ -17,9 +17,11 @@ object NewsData {
         return newsSet;
     }
 
-    fun update(callback: (m: MutableList<SingleNews>) -> Unit) {
+    fun update(category: String, country: String, callback: (m: MutableList<SingleNews>) -> Unit) {
+        Log.v("KEK kek", "update")
+        newsSet.clear()
         val temp = ApiService.create()
-        temp.news()
+        temp.news(category, country)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->

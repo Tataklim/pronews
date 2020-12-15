@@ -17,14 +17,6 @@
     <string name="card_image_desc">News image</string>
 
 
-    <string name="cost">Cost</string>
-    <string name="currency">Currency</string>
-    <string name="date">Date</string>
-    <string name="bitcoin">bitcoin</string>
-    <string name="https_min_api_cryptocompare_com">https://min-api.cryptocompare.com/</string>
-    <string name="settings">Settings</string>
-    <string name="update">Update</string>
-
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
