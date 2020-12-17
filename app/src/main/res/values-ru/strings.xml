@@ -2,6 +2,7 @@
     <string name="app_name">Pronews</string>
     <string name="title_activity_settings">Настройкикек</string>
 
+    <string name="no_data_available">Нет данных</string>
     <!-- Settings -->
     <string name="settings_general_header">Общие настройки</string>
     <string name="settings_network_header">Настройки сети</string>

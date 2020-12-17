@@ -2,6 +2,9 @@
     <string name="app_name">Pronews</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
+
+    <string name="no_data_available">No data available</string>
+
     <!-- Settings -->
     <string name="settings_general_header">General settings</string>
     <string name="settings_network_header">Network settings</string>

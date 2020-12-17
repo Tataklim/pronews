@@ -23,8 +23,6 @@ import com.example.pronews.utils.NewsData
 import com.example.pronews.utils.SerializedSingleNews
 import kotlin.properties.Delegates
 
-const val NO_DATA_FOUND = "There isnt any news";
-
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
@@ -46,17 +44,19 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.v("KEK size lol", "onCreateView")
         val root = inflater.inflate(R.layout.fragment_home, container, false)
+
         newsRecyclerView = root.findViewById<RecyclerView>(R.id.recyclerViewId)
         buttonCategory = root.findViewById<Button>(R.id.button_category_id)
         buttonCountry = root.findViewById<Button>(R.id.button_country_id)
         emptyListTextView = root.findViewById<TextView>(R.id.empty_list_id)
         sharedPref = MyApplication.getContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
         category = ""
         country = ""
         setCategoryButtonEventListener()
         setCountryButtonEventListener()
+        
         return root
     }
 
@@ -77,11 +77,11 @@ class HomeFragment : Fragment() {
     private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
         Log.v("KEK size lol", "setRecyclerViewData" + dataSet.size)
         if (dataSet.size == 0) {
-            emptyListTextView.text = NO_DATA_FOUND
-            recyclerView.visibility = View.GONE;
+            emptyListTextView.visibility = View.VISIBLE
             return
         }
-        emptyListTextView.text = ""
+        emptyListTextView.visibility = View.GONE;
+
         viewManager = LinearLayoutManager(activity)
         viewAdapter = ListAdapter { item -> itemClicked(item) }
         viewAdapter.data = dataSet

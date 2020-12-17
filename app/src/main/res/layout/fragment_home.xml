@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"
         android:orientation="vertical"
-        tools:context=".activities.MainActivity"
-        android:layout_marginBottom="56dp">
+        tools:context=".activities.MainActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,18 +27,25 @@
                     android:id="@+id/button_category_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/selectCategory"
                     android:layout_margin="4dp"
+                    android:text="@string/selectCategory"
                     android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/button_country_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/selectCountry"
                     android:layout_margin="4dp"
+                    android:text="@string/selectCountry"
                     android:textSize="20sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/empty_list_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/no_data_available"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewId"
@@ -47,12 +54,8 @@
                 android:scrollbars="vertical">
 
             </androidx.recyclerview.widget.RecyclerView>
-
         </LinearLayout>
-        <TextView
-            android:id="@+id/empty_list_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp" />
+
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
