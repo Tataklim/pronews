@@ -103,4 +103,6 @@ dependencies {
 
     // optional - Test helpers
     androidTestImplementation "androidx.work:work-testing:$work_version"
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
