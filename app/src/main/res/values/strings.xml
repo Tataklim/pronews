@@ -20,8 +20,8 @@
     <string name="card_image_desc">News image</string>
     <string name="settings" translatable="false">Settings</string>
     <string name="update" translatable="false">Update</string>
-    <string name="selectCategory" translatable="false">category</string>
-    <string name="selectCountry" translatable="false">country</string>
+    <string name="select_category" translatable="false">category</string>
+    <string name="select_language" translatable="false">language</string>
 
     <string name="title_activity_single_news">ScrollingActivity</string>
     <string name="action_settings">Settings</string>

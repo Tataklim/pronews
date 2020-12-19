@@ -1,5 +1,6 @@
 package com.example.pronews.utils
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.pronews.models.SingleNews
 import com.example.pronews.network.ApiService
@@ -17,18 +18,21 @@ object NewsData {
         return newsSet;
     }
 
-    fun update(category: String, country: String, callback: (m: MutableList<SingleNews>) -> Unit) {
-        Log.v("KEK kek", "update")
+    @SuppressLint("CheckResult")
+    fun update(category: String, language: String, callback: (m: MutableList<SingleNews>) -> Unit) {
         newsSet.clear()
+        Log.v("KEK kek", "update" + newsSet.size)
         val temp = ApiService.create()
-        temp.news(category, country)
+        temp.news()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
                 result.List.map { elem -> newsSet.add(elem) }
+                Log.v("KEK size lol", "NO ERROR")
                 callback(newsSet)
             }, { error ->
                 error.message?.let { Log.v("Error", it) }
+                Log.v("KEK size lol", "ERROR")
                 error.printStackTrace()
             })
     }

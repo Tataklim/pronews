@@ -10,6 +10,10 @@
 
     <string name="preference_file_key_category" translatable="false">category</string>
     <string name="preference_file_key_category_default" translatable="false">general</string>
+
     <string name="preference_file_key_country" translatable="false">country</string>
     <string name="preference_file_key_country_default" translatable="false">ru</string>
+
+    <string name="preference_file_key_period">period</string>
+    <integer name="preference_file_key_period_default">10</integer>
 </resources>

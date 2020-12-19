@@ -10,10 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.pronews.R
 import com.example.pronews.activities.SingleNewsActivity
 import com.example.pronews.adapters.ListAdapter
@@ -21,6 +26,7 @@ import com.example.pronews.models.SingleNews
 import com.example.pronews.utils.MyApplication
 import com.example.pronews.utils.NewsData
 import com.example.pronews.utils.SerializedSingleNews
+import com.example.pronews.workers.RefreshWorker
 import kotlin.properties.Delegates
 
 class HomeFragment : Fragment() {
@@ -31,13 +37,14 @@ class HomeFragment : Fragment() {
 
     private lateinit var newsRecyclerView: RecyclerView
     private lateinit var buttonCategory: Button
-    private lateinit var buttonCountry: Button
+    private lateinit var buttonNewsLanguage: Button
     private lateinit var emptyListTextView: TextView
+    private lateinit var loadingProgressBar: RelativeLayout
 
     private lateinit var sharedPref: SharedPreferences
 
     private var category by Delegates.notNull<String>()
-    private var country by Delegates.notNull<String>()
+    private var newsLanguage by Delegates.notNull<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,15 +55,28 @@ class HomeFragment : Fragment() {
 
         newsRecyclerView = root.findViewById<RecyclerView>(R.id.recyclerViewId)
         buttonCategory = root.findViewById<Button>(R.id.button_category_id)
-        buttonCountry = root.findViewById<Button>(R.id.button_country_id)
+        buttonNewsLanguage = root.findViewById<Button>(R.id.button_news_language_id)
         emptyListTextView = root.findViewById<TextView>(R.id.empty_list_id)
-        sharedPref = MyApplication.getContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        loadingProgressBar = root.findViewById<RelativeLayout>(R.id.loading_id)
+
+        sharedPref = MyApplication.getContext().getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
 
         category = ""
-        country = ""
+        newsLanguage = ""
+
         setCategoryButtonEventListener()
-        setCountryButtonEventListener()
-        
+        setNewsLanguageButtonEventListener()
+
+        val uploadWorkRequest: WorkRequest =
+            OneTimeWorkRequestBuilder<RefreshWorker>()
+                .build()
+        WorkManager
+            .getInstance(MyApplication.getContext())
+            .enqueue(uploadWorkRequest)
+
         return root
     }
 
@@ -67,8 +87,9 @@ class HomeFragment : Fragment() {
 
     private fun getAndSetDataForRecyclerView(prefChanges: Boolean = false) {
         Log.v("KEK size lol", "getAndSetDataForRecyclerView")
+        emptyListTextView.visibility = View.GONE;
         if (prefChanges || NewsData.checkIfEmpty()) {
-            NewsData.update(category, country, ::setRecyclerViewData)
+            NewsData.update(category, newsLanguage, ::setRecyclerViewData)
         } else {
             setRecyclerViewData(NewsData.getData())
         }
@@ -76,6 +97,7 @@ class HomeFragment : Fragment() {
 
     private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
         Log.v("KEK size lol", "setRecyclerViewData" + dataSet.size)
+        loadingProgressBar.visibility = View.GONE;
         if (dataSet.size == 0) {
             emptyListTextView.visibility = View.VISIBLE
             return
@@ -110,13 +132,13 @@ class HomeFragment : Fragment() {
         getAndSetDataForRecyclerView(true)
     }
 
-    private fun countrySelected(countryName: String) {
-        buttonCountry.text = countryName
-        country = countryName
-        sharedPref.edit().putString(
-            getString(R.string.preference_file_key_country),
-            countryName
-        ).apply()
+    private fun newsLanguageSelected(newsLanguageName: String) {
+        buttonNewsLanguage.text = newsLanguageName
+        newsLanguage = newsLanguageName
+//        sharedPref.edit().putString(
+//            getString(R.string.preference_file_key_country),
+//            countryName
+//        ).apply()
         getAndSetDataForRecyclerView(true)
     }
 
@@ -131,7 +153,7 @@ class HomeFragment : Fragment() {
                     true
                 }
                 R.id.menu_category_business -> {
-                    categorySelected( getString(R.string.business))
+                    categorySelected(getString(R.string.business))
                     true
                 }
                 R.id.menu_category_health -> {
@@ -144,7 +166,7 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.menu_category_sports -> {
-                    categorySelected( getString(R.string.sports))
+                    categorySelected(getString(R.string.sports))
                     true
                 }
 
@@ -162,33 +184,33 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setCountryButtonEventListener() {
-        val popupMenu = PopupMenu(MyApplication.getContext(), buttonCountry)
-        popupMenu.inflate(R.menu.popupmenu_country)
+    private fun setNewsLanguageButtonEventListener() {
+        val popupMenu = PopupMenu(MyApplication.getContext(), buttonNewsLanguage)
+        popupMenu.inflate(R.menu.popupmenu_news_language)
 
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_country_de -> {
-                    countrySelected(getString(R.string.de))
+                R.id.menu_news_language_de -> {
+                    newsLanguageSelected(getString(R.string.de))
                     true
                 }
-                R.id.menu_country_en -> {
-                    countrySelected( getString(R.string.en))
+                R.id.menu_news_language_en -> {
+                    newsLanguageSelected(getString(R.string.en))
                     true
                 }
-                R.id.menu_country_fr -> {
-                    countrySelected(getString(R.string.fr))
+                R.id.menu_news_language_fr -> {
+                    newsLanguageSelected(getString(R.string.fr))
                     true
                 }
-                R.id.menu_country_ru -> {
-                    countrySelected(getString(R.string.ru))
+                R.id.menu_news_language_ru -> {
+                    newsLanguageSelected(getString(R.string.ru))
                     true
                 }
 
                 else -> false
             }
         }
-        buttonCountry.setOnClickListener {
+        buttonNewsLanguage.setOnClickListener {
             popupMenu.show()
         }
     }

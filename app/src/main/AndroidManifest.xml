@@ -27,9 +27,13 @@
         <activity
             android:name=".activities.SingleNewsActivity"
             android:label="@string/title_activity_single_news"
-            android:theme="@style/Theme.Pronews.NoActionBar" />
-        <activity android:name=".activities.MainActivity">
+            android:theme="@style/Theme.Pronews.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:configChanges="locale|orientation"
+                android:value="com.example.pronews.activities.MainActivity" />
         </activity>
+        <activity android:name=".activities.MainActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:configChanges="locale|orientation"

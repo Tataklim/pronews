@@ -10,15 +10,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val ACCESS_KEY = "e8b921b962e03393885d26f7d4999e44";
+const val ACCESS_KEY = "b6d76b15107ddc1048ac8ccd464aa090";
+const val ACCESS_KEY2 = "30610d1fee9dfebbf8ea6567fe65662d";
 
 interface ApiService {
 
     @GET("news")
     fun news(
-        @Query("categories") category: String = "",
-        @Query("countries") country: String = "",
-        @Query("languages") lang: String = "ru",
+        @Query("categories") lang: String = "",
+        @Query("languages") language: String = "",
         @Query("access_key") access_key: String = ACCESS_KEY
     ): Observable<NewsData>
 

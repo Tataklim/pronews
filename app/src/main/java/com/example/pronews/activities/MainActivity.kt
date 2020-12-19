@@ -53,14 +53,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(R.layout.activity_main)
         setValuesFromSharedPref()
 
-        MyApplication.Companion.setContext(this);
-
-        setContentView(R.layout.activity_main)
-
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        MyApplication.setContext(this)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -140,10 +136,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         category = ""
         country = ""
 
-        when(theme) {
-            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
+//        when (theme) {
+//            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//        }
     }
 
     private fun getAndSetDataForRecyclerView() {
