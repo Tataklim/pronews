@@ -86,8 +86,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getAndSetDataForRecyclerView(prefChanges: Boolean = false) {
-        Log.v("KEK size lol", "getAndSetDataForRecyclerView")
-        emptyListTextView.visibility = View.GONE;
+        setLoadingMode()
         if (prefChanges || NewsData.checkIfEmpty()) {
             NewsData.update(category, newsLanguage, ::setRecyclerViewData)
         } else {
@@ -96,14 +95,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
-        Log.v("KEK size lol", "setRecyclerViewData" + dataSet.size)
-        loadingProgressBar.visibility = View.GONE;
         if (dataSet.size == 0) {
-            emptyListTextView.visibility = View.VISIBLE
+            setNoDataMode()
             return
         }
-        emptyListTextView.visibility = View.GONE;
-
         viewManager = LinearLayoutManager(activity)
         viewAdapter = ListAdapter { item -> itemClicked(item) }
         viewAdapter.data = dataSet
@@ -113,6 +108,7 @@ class HomeFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        setShowDataMode()
     }
 
     private fun itemClicked(item: SingleNews) {
@@ -135,10 +131,6 @@ class HomeFragment : Fragment() {
     private fun newsLanguageSelected(newsLanguageName: String) {
         buttonNewsLanguage.text = newsLanguageName
         newsLanguage = newsLanguageName
-//        sharedPref.edit().putString(
-//            getString(R.string.preference_file_key_country),
-//            countryName
-//        ).apply()
         getAndSetDataForRecyclerView(true)
     }
 
@@ -213,5 +205,20 @@ class HomeFragment : Fragment() {
         buttonNewsLanguage.setOnClickListener {
             popupMenu.show()
         }
+    }
+
+    private fun setLoadingMode() {
+        loadingProgressBar.visibility = View.VISIBLE;
+        emptyListTextView.visibility = View.GONE;
+    }
+
+    private fun setNoDataMode() {
+        loadingProgressBar.visibility = View.GONE;
+        emptyListTextView.visibility = View.VISIBLE;
+    }
+
+    private fun setShowDataMode() {
+        loadingProgressBar.visibility = View.GONE;
+        emptyListTextView.visibility = View.GONE;
     }
 }

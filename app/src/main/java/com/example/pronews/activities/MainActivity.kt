@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pronews.R
 import com.example.pronews.adapters.ListAdapter
-import com.example.pronews.databinding.ActivityMainBinding
 import com.example.pronews.models.SingleNews
 import com.example.pronews.network.ApiService
 import com.example.pronews.utils.MyApplication
@@ -37,7 +36,6 @@ import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
-    private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPref: SharedPreferences
 
     private lateinit var recyclerView: RecyclerView
