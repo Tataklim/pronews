@@ -37,6 +37,9 @@
     <string name="sports" translatable="false">sports</string>
     <string name="technology" translatable="false">technology</string>
 
+    <!-- snackBar text-->
+    <string name="snackbar_title" translatable="false">We have fresh news for you</string>
+    <string name="snackbar_button" translatable="false">open last</string>
 
     <string name="de" translatable="false">de</string>
     <string name="en" translatable="false">en</string>

@@ -51,10 +51,6 @@ class HomeFragment : Fragment() {
     private var category by Delegates.notNull<String>()
     private var newsLanguage by Delegates.notNull<String>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -140,7 +136,6 @@ class HomeFragment : Fragment() {
                         }
                         WorkInfo.State.RUNNING -> {
                             Log.v("KEK WorkManager", "Download running.")
-
                         }
                     }
                 }
@@ -166,16 +161,13 @@ class HomeFragment : Fragment() {
     private fun setSnackbar() {
         snackbarRefreshed = Snackbar.make(
             requireActivity().findViewById(R.id.navigation_home),
-            "R.string.text_label",
+            getString(R.string.snackbar_title),
             Snackbar.LENGTH_LONG
         );
-        snackbarRefreshed.setAction("Next...", View.OnClickListener {
-            val toast = Toast.makeText(
-                context,
-                "Next clicked!",
-                Toast.LENGTH_LONG
-            )
-            toast.show()
+        snackbarRefreshed.setAction(getString(R.string.snackbar_button), View.OnClickListener {
+            itemClicked(NewsData.newsSetWorker[0])
+//            NewsData.changeData() // Убрать вместе с хардкодом в NewsData
+//            setRecyclerViewData(NewsData.getData())
         })
     }
 

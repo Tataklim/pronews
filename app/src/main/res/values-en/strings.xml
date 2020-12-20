@@ -24,4 +24,9 @@
     <string name="title_home">Home</string>
     <string name="title_liked">Liked</string>
     <string name="title_notifications">Notifications</string>
+
+
+    <!-- snackBar text-->
+    <string name="snackbar_title" translatable="false">We have fresh news for you</string>
+    <string name="snackbar_button" translatable="false">open last</string>
 </resources>

@@ -22,4 +22,8 @@
     <string name="title_home">Главная</string>
     <string name="title_liked">Избранное</string>
     <string name="title_notifications">Временно</string>
+
+    <!-- snackBar text-->
+    <string name="snackbar_title" translatable="false">Появились свежие новости</string>
+    <string name="snackbar_button" translatable="false">открыть</string>
 </resources>

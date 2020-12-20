@@ -22,14 +22,11 @@ object NewsData {
         return newsSet;
     }
 
-    private fun checkIfNewsAlreadyIncludes(news: SingleNews): Boolean {
-        if (!newsTitles.contains(news.title)) {
-            Log.v("KEK contains false", news.title!!)
-            newsTitles.add(news.title)
-            return true
+    fun changeData() { // Не удолять
+        newsSet.clear()
+        newsSetWorker.map { elem ->
+            newsSet.add(elem)
         }
-        Log.v("KEK contains true", news.title!!)
-        return false
     }
 
     @SuppressLint("CheckResult")
@@ -57,19 +54,5 @@ object NewsData {
         newsSetWorker.clear()
         val temp = ApiService.create()
         return temp.news(category, language)
-//        temp.news(category, language)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe({ result ->
-//                result.List.map { elem ->
-//                    newsSetWorker.add(elem)
-//                }
-//                Log.v("KEK contains false", "got")
-//            }, { error ->
-//                error.message?.let { Log.v("Error", it) }
-//                Log.v("KEK size lol", "ERROR")
-//                error.printStackTrace()
-//            })
-
     }
 }
