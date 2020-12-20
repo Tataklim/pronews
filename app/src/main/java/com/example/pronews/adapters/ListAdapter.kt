@@ -12,7 +12,8 @@ import com.example.pronews.R
 import com.example.pronews.models.SingleNews
 import com.example.pronews.utils.MyApplication
 
-var DEFAULT_IMAGE = "https://mariupolrada.gov.ua/uploads/ckeditor/4.%20%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D1%8F%D0%BD%D0%B0%D0%BC/%D0%95%D0%BA%D0%BE%D0%BB%D0%BE%D0%B3%D1%96%D1%8F/%D0%97%D0%A0/%D1%84%D0%BE%D1%82%D0%BE/nophoto.png"
+var DEFAULT_IMAGE =
+    "https://mariupolrada.gov.ua/uploads/ckeditor/4.%20%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D1%8F%D0%BD%D0%B0%D0%BC/%D0%95%D0%BA%D0%BE%D0%BB%D0%BE%D0%B3%D1%96%D1%8F/%D0%97%D0%A0/%D1%84%D0%BE%D1%82%D0%BE/nophoto.png"
 
 class ListAdapter(private val clickListener: (SingleNews) -> Unit) :
     RecyclerView.Adapter<ListAdapter.ElemViewHolder>() {
@@ -49,7 +50,8 @@ class ListAdapter(private val clickListener: (SingleNews) -> Unit) :
             if (data.image.equals(null)) {
                 Glide.with(MyApplication.getContext()).load(DEFAULT_IMAGE).into(image)
             } else {
-                Glide.with(MyApplication.getContext()).load(data.image).into(image)
+                Glide.with(MyApplication.getContext()).load(data.image)
+                    .error(Glide.with(MyApplication.getContext()).load(DEFAULT_IMAGE)).into(image)
             }
             itemView.setOnClickListener {
                 clickListener(data)

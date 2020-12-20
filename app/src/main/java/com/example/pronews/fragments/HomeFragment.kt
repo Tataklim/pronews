@@ -4,21 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.PopupMenu
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.core.widget.ContentLoadingProgressBar
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.work.*
 import com.example.pronews.R
 import com.example.pronews.activities.SingleNewsActivity
 import com.example.pronews.adapters.ListAdapter
@@ -26,8 +23,14 @@ import com.example.pronews.models.SingleNews
 import com.example.pronews.utils.MyApplication
 import com.example.pronews.utils.NewsData
 import com.example.pronews.utils.SerializedSingleNews
+import com.example.pronews.workers.CATEGORY_ARG
+import com.example.pronews.workers.KEY_RESULT
+import com.example.pronews.workers.LANGUAGE_ARG
 import com.example.pronews.workers.RefreshWorker
+import com.google.android.material.snackbar.Snackbar
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+
 
 class HomeFragment : Fragment() {
 
@@ -40,11 +43,17 @@ class HomeFragment : Fragment() {
     private lateinit var buttonNewsLanguage: Button
     private lateinit var emptyListTextView: TextView
     private lateinit var loadingProgressBar: RelativeLayout
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var snackbarRefreshed: Snackbar
 
     private lateinit var sharedPref: SharedPreferences
 
     private var category by Delegates.notNull<String>()
     private var newsLanguage by Delegates.notNull<String>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +67,16 @@ class HomeFragment : Fragment() {
         buttonNewsLanguage = root.findViewById<Button>(R.id.button_news_language_id)
         emptyListTextView = root.findViewById<TextView>(R.id.empty_list_id)
         loadingProgressBar = root.findViewById<RelativeLayout>(R.id.loading_id)
+        swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_layout_id)
+
+        setSnackbar()
+
+        swipeRefreshLayout.setOnRefreshListener {
+            NewsData.update(category, newsLanguage, ::hideRefresh)
+            Handler().postDelayed(Runnable {
+                swipeRefreshLayout.isRefreshing = false
+            }, 10000)
+        }
 
         sharedPref = MyApplication.getContext().getSharedPreferences(
             getString(R.string.preference_file_key),
@@ -69,13 +88,9 @@ class HomeFragment : Fragment() {
 
         setCategoryButtonEventListener()
         setNewsLanguageButtonEventListener()
-
-        val uploadWorkRequest: WorkRequest =
-            OneTimeWorkRequestBuilder<RefreshWorker>()
-                .build()
-        WorkManager
-            .getInstance(MyApplication.getContext())
-            .enqueue(uploadWorkRequest)
+        Handler().postDelayed({
+            setWorker()
+        }, 4000)
 
         return root
     }
@@ -83,6 +98,90 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         getAndSetDataForRecyclerView()
+    }
+
+    private fun setWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .build()
+
+        val myData: Data = workDataOf(
+            CATEGORY_ARG to category,
+            LANGUAGE_ARG to newsLanguage
+        )
+
+        val uploadWorkRequest = OneTimeWorkRequestBuilder<RefreshWorker>()
+            .setConstraints(constraints)
+            .setInitialDelay(1, TimeUnit.SECONDS)
+            .setInputData(myData)
+            .build()
+
+//        val uploadWorkRequest: WorkRequest =
+//            PeriodicWorkRequestBuilder<RefreshWorker>(
+//                1, TimeUnit.HOURS,
+//                15, TimeUnit.MINUTES)
+//                // smth else
+//                .build()
+
+        WorkManager
+            .getInstance(MyApplication.getContext())
+            .enqueue(uploadWorkRequest)
+
+        WorkManager.getInstance().getWorkInfoByIdLiveData(uploadWorkRequest.id)
+            .observe(viewLifecycleOwner, Observer { workInfo ->
+
+                if (workInfo != null) {
+                    when (workInfo.state) {
+                        WorkInfo.State.ENQUEUED -> {
+                            Log.v("KEK WorkManager", "Download enqueued.")
+                        }
+                        WorkInfo.State.BLOCKED -> {
+                            Log.v("KEK WorkManager", "Download blocked.")
+                        }
+                        WorkInfo.State.RUNNING -> {
+                            Log.v("KEK WorkManager", "Download running.")
+
+                        }
+                    }
+                }
+                // По окончанию работы
+                if (workInfo != null && workInfo.state.isFinished) {
+                    if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                        Log.v("KEK WorkManager", "Download finished.")
+                        val successOutputData = workInfo.outputData
+                        val hasUpdates = successOutputData.getBoolean(KEY_RESULT, false)
+                        Log.v("KEK WorkManager", hasUpdates.toString())
+                        if (hasUpdates) {
+                            snackbarRefreshed.show()
+                        }
+                    } else if (workInfo.state == WorkInfo.State.FAILED) {
+                        Log.v("KEK WorkManager", "Failed")
+                    } else if (workInfo.state == WorkInfo.State.CANCELLED) {
+                        Log.v("KEK WorkManager", "cancelled")
+                    }
+                }
+            })
+    }
+
+    private fun setSnackbar() {
+        snackbarRefreshed = Snackbar.make(
+            requireActivity().findViewById(R.id.navigation_home),
+            "R.string.text_label",
+            Snackbar.LENGTH_LONG
+        );
+        snackbarRefreshed.setAction("Next...", View.OnClickListener {
+            val toast = Toast.makeText(
+                context,
+                "Next clicked!",
+                Toast.LENGTH_LONG
+            )
+            toast.show()
+        })
+    }
+
+    private fun hideRefresh(dataSet: MutableList<SingleNews>) {
+        setRecyclerViewData(dataSet)
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun getAndSetDataForRecyclerView(prefChanges: Boolean = false) {
@@ -101,7 +200,7 @@ class HomeFragment : Fragment() {
         }
         viewManager = LinearLayoutManager(activity)
         viewAdapter = ListAdapter { item -> itemClicked(item) }
-        viewAdapter.data = dataSet
+        viewAdapter.data = NewsData.getData()
 
         recyclerView = newsRecyclerView.apply {
             setHasFixedSize(true)
