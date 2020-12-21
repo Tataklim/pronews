@@ -1,5 +1,6 @@
 package com.example.pronews.activities
 
+import DataBaseHandler
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pronews.R
 import com.example.pronews.adapters.ListAdapter
+import com.example.pronews.db.NewsItem
 import com.example.pronews.models.SingleNews
 import com.example.pronews.network.ApiService
 import com.example.pronews.utils.MyApplication
