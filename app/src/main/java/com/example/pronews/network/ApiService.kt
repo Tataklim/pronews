@@ -10,7 +10,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val ACCESS_KEY = "7267c683c0c087e5d467204124a65586";
+const val ACCESS_KEY = "3030288931faeb10530588deb82a0e7e";
 
 interface ApiService {
 

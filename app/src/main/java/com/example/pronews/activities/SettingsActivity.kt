@@ -36,10 +36,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
-        private fun validateInputDays(newValue: Any): Boolean {
-            return newValue.toString().toIntOrNull() != null && newValue.toString()
-                .toInt() > 0 && newValue.toString().toInt() < 2000
-        }
 
         private fun setLocale(language: String) {
             val dm: DisplayMetrics = resources.displayMetrics
@@ -67,23 +63,6 @@ class SettingsActivity : AppCompatActivity() {
                     R.string.preference_file_key_check_new
                 )
             )!!
-
-//            prefPeriod.onPreferenceChangeListener =
-//                Preference.OnPreferenceChangeListener { _, newValue ->
-//                    if (validateInputDays(newValue)) {
-//                        sharedPref.edit().putInt(
-//                            getString(R.string.preference_file_key_period),
-//                            newValue.toString().toInt()
-//                        ).apply()
-//                    } else {
-//                        Toast.makeText(
-//                            context,
-//                            "Количество дней должно быть положительным число до 2000",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//                    }
-//                    validateInputDays(newValue)
-//                }
 
             prevLanguage.onPreferenceChangeListener =
                 Preference.OnPreferenceChangeListener { _, newValue ->

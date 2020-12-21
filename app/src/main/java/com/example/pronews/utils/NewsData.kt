@@ -41,6 +41,7 @@ object NewsData {
                 result.List.map { elem ->
                     newsSet.add(elem)
                 }
+                Log.v("KEK size lol", newsSet.size.toString())
                 callback(newsSet)
             }, { error ->
                 error.message?.let { Log.v("Error", it) }

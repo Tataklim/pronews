@@ -60,11 +60,6 @@ class RefreshWorker(appContext: Context, workerParams: WorkerParameters) :
     private fun newDataAppear() {
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed(Runnable { // Run your task here
-//            Snackbar.make(contextView, R.string.text_label, Snackbar.LENGTH_LONG)
-//                .setAction(R.string.action_text) {
-//                    // Responds to click on the action
-//                }
-//                .show()
             Toast.makeText(
                 applicationContext,
                 "Testingfn,sfndfgsnggdfs njgsdfssfgskgbfgfsfggs jbsfgjfsbgjksfbgjfbgkjs bdgjksfbgjkf bgknfbgksdf gbksjfgbkjsfbgkjsfbg",

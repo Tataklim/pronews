@@ -84,11 +84,15 @@ class HomeFragment : Fragment() {
 
         setCategoryButtonEventListener()
         setNewsLanguageButtonEventListener()
+
+        return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         Handler().postDelayed({
             setWorker()
         }, 1000)
-
-        return root
     }
 
     override fun onStart() {
@@ -111,13 +115,6 @@ class HomeFragment : Fragment() {
             .setInitialDelay(1, TimeUnit.SECONDS)
             .setInputData(myData)
             .build()
-
-//        val uploadWorkRequest: WorkRequest =
-//            PeriodicWorkRequestBuilder<RefreshWorker>(
-//                1, TimeUnit.HOURS,
-//                15, TimeUnit.MINUTES)
-//                // smth else
-//                .build()
 
         WorkManager
             .getInstance(MyApplication.getContext())
@@ -189,6 +186,7 @@ class HomeFragment : Fragment() {
             setNoDataMode()
             return
         }
+
         viewManager = LinearLayoutManager(activity)
         viewAdapter = ListAdapter { item -> itemClicked(item) }
         viewAdapter.data = NewsData.getData()

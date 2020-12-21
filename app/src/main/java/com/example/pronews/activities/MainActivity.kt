@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_liked, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_liked
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -142,45 +142,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         category = ""
         country = ""
 
-//        when (theme) {
-//            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//        }
-    }
-
-//    private fun getAndSetDataForRecyclerView() {
-//        Log.v("KEK MAIN", "getAndSetDataForRecyclerView")
-//        val newsSet: MutableList<SingleNews> = mutableListOf()
-//        val temp = ApiService.create()
-//        temp.news(category, country)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe({ result ->
-//                Log.v("KEK WHAT SIZE", result.List.size.toString())
-//                result.List.map { elem -> newsSet.add(elem) }
-//                setRecyclerViewData(newsSet);
-//            }, { error ->
-//                error.message?.let { Log.v("Error", it) }
-//                error.printStackTrace()
-//            })
-//    }
-//
-//    private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
-//        Log.v("KEK WHAT", dataSet.size.toString())
-//        viewManager = LinearLayoutManager(this)
-//        viewAdapter = ListAdapter { item -> itemClicked(item) }
-//        viewAdapter.data = dataSet
-//
-//        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewId).apply {
-//            setHasFixedSize(true)
-//            layoutManager = viewManager
-//            adapter = viewAdapter
-//        }
-//    }
-
-    private fun itemClicked(item: SingleNews) {
-        val intent = Intent(this, SingleNewsActivity::class.java)
-        startActivity(intent)
+        var newValueTranslated = theme
+        when(theme) {
+            "темный" -> newValueTranslated = "dark"
+            "светлый" -> newValueTranslated = "light"
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -190,36 +156,20 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     resources.getString(R.string.preference_file_key_language_default)
                 language = sharedPref.getString(key, defaultLanguage).toString()
                 Log.v("KEK onShared", resources.getString(R.string.preference_file_key_language))
-//                getAndSetDataForRecyclerView()
-//                setLocale()
             }
             resources.getString(R.string.preference_file_key_theme) -> {
                 val defaultTheme =
                     resources.getString(R.string.preference_file_key_theme_default)
                 theme = sharedPref.getString(key, defaultTheme).toString()
                 Log.v("KEK onShared", resources.getString(R.string.preference_file_key_theme))
-//                getAndSetDataForRecyclerView()
             }
             resources.getString(R.string.preference_file_key_check_new) -> {
                 val defaultCheckNew =
                     resources.getBoolean(R.bool.preference_file_key_check_new_defaults)
                 checkNew = sharedPref.getBoolean(key, defaultCheckNew)
                 Log.v("KEK onShared", resources.getString(R.string.preference_file_key_check_new))
-
-//                getAndSetDataForRecyclerView()
             }
-//            resources.getString(R.string.preference_file_key_category) -> {
-//                val defaultCategory =
-//                    resources.getString(R.string.preference_file_key_category_default)
-//                category = sharedPref.getString(key, defaultCategory).toString()
-//                getAndSetDataForRecyclerView()
-//            }
-//            resources.getString(R.string.preference_file_key_country) -> {
-//                val defaultCountry =
-//                    resources.getString(R.string.preference_file_key_country_default)
-//                country = sharedPref.getString(key, defaultCountry).toString()
-//                getAndSetDataForRecyclerView()
-//            }
+
             else -> {
                 Log.v("KEK onShared", "Error")
             }

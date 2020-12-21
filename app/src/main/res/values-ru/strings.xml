@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pronews</string>
+    <string name="app_name">Новост</string>
     <string name="title_activity_settings">Настройкикек</string>
 
     <string name="no_data_available">Нет данных</string>
@@ -14,6 +14,12 @@
     <string name="settings_check_new_on">вкл</string>
     <string name="settings_check_new_off">выкл</string>
 
+    <string name="general">general</string>
+    <string name="business">business</string>
+    <string name="health">health</string>
+    <string name="science">science</string>
+    <string name="sports">sports</string>
+    <string name="technology">technology</string>
 
     <string name="card_image_desc">News image</string>
 
@@ -24,6 +30,19 @@
     <string name="title_notifications">Временно</string>
 
     <!-- snackBar text-->
-    <string name="snackbar_title" translatable="false">Появились свежие новости</string>
-    <string name="snackbar_button" translatable="false">открыть</string>
+    <string name="snackbar_title">Появились свежие новости</string>
+    <string name="snackbar_button">открыть</string>
+
+    <!-- News page -->
+    <string name="single_category">Категория: </string>
+    <string name="single_language">Язык: </string>
+    <string name="single_author" >Автор: </string>
+
+    <string name="select_category">категория</string>
+    <string name="select_language">язык</string>
+    <string name="settings">Настройки</string>
+    <string name="share">Поделиться</string>
+    <string name="open">Открыть</string>
+    <string name="update">Обновить</string>
+    <string name="clean_db">Очистить хранилище</string>
 </resources>

@@ -19,7 +19,7 @@ import com.example.pronews.utils.MyApplication
 import com.example.pronews.utils.SerializedSingleNews
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.imageview.ShapeableImageView
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -42,8 +42,6 @@ class SingleNewsActivity : AppCompatActivity() {
 
         setAddToLikedUrlEventListener()
 
-        setUrlEventListener()
-
         setIsLiked()
     }
 
@@ -55,7 +53,18 @@ class SingleNewsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemId = item.itemId
         if (itemId == R.id.share_settings) {
-            Toast.makeText(MyApplication.getContext(), "SHAREEEEEEEE", Toast.LENGTH_SHORT).show()
+            val sendIntent = Intent(Intent.ACTION_VIEW)
+            sendIntent.putExtra("sms_body", element.url)
+            sendIntent.type = "vnd.android-dir/mms-sms"
+            startActivity(sendIntent)
+            return true
+        }
+
+        if (itemId == R.id.open_settings) {
+            val parsedUri: Uri = Uri.parse(element.url)
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(parsedUri.toString())
+            startActivity(intent)
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -101,28 +110,18 @@ class SingleNewsActivity : AppCompatActivity() {
 
         if (item?.image.equals(null)) {
             Glide.with(MyApplication.getContext()).load(DEFAULT_IMAGE)
-                .into(findViewById<ImageView>(R.id.singleImageId))
+                .into(findViewById<ShapeableImageView>(R.id.singleImageId))
         } else {
             Glide.with(MyApplication.getContext()).load(item?.image)
-                .into(findViewById<ImageView>(R.id.singleImageId))
+                .into(findViewById<ShapeableImageView>(R.id.singleImageId))
         }
 
         findViewById<TextView>(R.id.singleCategoryId).text = item?.category
         findViewById<TextView>(R.id.singleCountryId).text = item?.country
         findViewById<TextView>(R.id.singleAuthorId).text = item?.author
         findViewById<TextView>(R.id.singleDescriptionId).text = item?.description
-        findViewById<TextView>(R.id.singleDate).text = item?.published_at
-        findViewById<TextView>(R.id.singleUrl).text = item?.url
-    }
 
-    private fun setUrlEventListener() {
-        val urlTextView = findViewById<TextView>(R.id.singleUrl)
-        urlTextView.setOnClickListener {
-            val parsedUri: Uri = Uri.parse(urlTextView.text.toString())
-            intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(parsedUri.toString())
-            startActivity(intent)
-        }
+        findViewById<TextView>(R.id.singleDate).text = item?.published_at
     }
 
     private fun setAddToLikedUrlEventListener() {
