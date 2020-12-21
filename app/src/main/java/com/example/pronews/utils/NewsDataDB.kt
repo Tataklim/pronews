@@ -1,11 +1,10 @@
 package com.example.pronews.utils
 
+import com.example.pronews.db.NewsItem
 import com.example.pronews.models.SingleNews
 
 object NewsDataDB {
     private var newsSet: MutableList<SingleNews> = mutableListOf()
-    var newsSetWorker: MutableList<SingleNews> = mutableListOf()
-    private var newsTitles: MutableSet<String?> = mutableSetOf()
 
     fun checkIfEmpty(): Boolean {
         return newsSet.isEmpty();
@@ -15,10 +14,22 @@ object NewsDataDB {
         return newsSet;
     }
 
-    fun changeData() { // Не удолять
+    fun setData(data: MutableList<NewsItem>) {
         newsSet.clear()
-        newsSetWorker.map { elem ->
-            newsSet.add(elem)
+        data.map { elem ->
+            val singleNews = SingleNews(
+                elem.author,
+                elem.category,
+                elem.country,
+                elem.description,
+                elem.image,
+                elem.language,
+                elem.published_at,
+                elem.source,
+                elem.title,
+                elem.url
+            )
+            newsSet.add(singleNews)
         }
     }
 }

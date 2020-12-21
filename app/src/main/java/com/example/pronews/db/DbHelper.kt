@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 import com.example.pronews.db.NewsItem
+import com.example.pronews.fragments.LikedFragment
 
 const val DATABASENAME = "NEWS DATABASE"
 const val TABLENAME = "News"
@@ -59,6 +60,32 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun deleteData(item: NewsItem): Boolean {
+        val database = this.writableDatabase
+
+        val contentValues = ContentValues()
+
+        contentValues.put(COL_AUTHOR, item.author)
+        contentValues.put(COL_CATEGORY, item.category)
+        contentValues.put(COL_COUNTRY, item.country)
+        contentValues.put(COL_DESCRIPTION, item.description)
+        contentValues.put(COL_IMAGE, item.image)
+        contentValues.put(COL_LANGUAGE, item.language)
+        contentValues.put(COL_PUBLISHED_AT, item.published_at)
+        contentValues.put(COL_SOURCE, item.source)
+        contentValues.put(COL_TITLE, item.title)
+        contentValues.put(COL_URL, item.url)
+
+        return database.delete(TABLENAME, COL_TITLE + "=\"" + item.title + "\"", null) > 0
+    }
+
+    fun deleteDB() {
+        val database = this.writableDatabase
+
+        return database.execSQL("delete from $TABLENAME")
+    }
+
     fun readData(): MutableList<NewsItem> {
         val list: MutableList<NewsItem> = ArrayList()
         val db = this.readableDatabase

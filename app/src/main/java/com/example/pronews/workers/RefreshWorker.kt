@@ -51,7 +51,7 @@ class RefreshWorker(appContext: Context, workerParams: WorkerParameters) :
     }
 
     private fun checkIfHasNews(): Boolean {
-        if (NewsData.newsSetWorker[0] != NewsData.getData()[0]) {
+        if (NewsData.newsSetWorker.size!= 0 && NewsData.getData().size != 0 &&NewsData.newsSetWorker[0] != NewsData.getData()[0]) {
             return true
         }
         return false

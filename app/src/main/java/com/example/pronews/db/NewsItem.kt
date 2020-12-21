@@ -3,8 +3,6 @@ package com.example.pronews.db
 import com.example.pronews.models.SingleNews
 
 class NewsItem {
-
-
     var _id: String? = null
     var author: String? = null
     var category: String? = null

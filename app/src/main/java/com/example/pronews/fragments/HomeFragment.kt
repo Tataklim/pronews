@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
         setNewsLanguageButtonEventListener()
         Handler().postDelayed({
             setWorker()
-        }, 4000)
+        }, 1000)
 
         return root
     }
@@ -125,7 +125,6 @@ class HomeFragment : Fragment() {
 
         WorkManager.getInstance().getWorkInfoByIdLiveData(uploadWorkRequest.id)
             .observe(viewLifecycleOwner, Observer { workInfo ->
-
                 if (workInfo != null) {
                     when (workInfo.state) {
                         WorkInfo.State.ENQUEUED -> {

@@ -4,11 +4,12 @@ import DataBaseHandler
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pronews.R
 import com.example.pronews.adapters.DEFAULT_IMAGE
@@ -19,23 +20,21 @@ import com.example.pronews.utils.SerializedSingleNews
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 
 class SingleNewsActivity : AppCompatActivity() {
 
     private lateinit var element: SingleNews
+    private lateinit var likeButton: FloatingActionButton
+    private var isLiked by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_news)
         setSupportActionBar(findViewById(R.id.toolbar))
-
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        likeButton = findViewById<FloatingActionButton>(R.id.like_button)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -44,6 +43,41 @@ class SingleNewsActivity : AppCompatActivity() {
         setAddToLikedUrlEventListener()
 
         setUrlEventListener()
+
+        setIsLiked()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_news, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId = item.itemId
+        if (itemId == R.id.share_settings) {
+            Toast.makeText(MyApplication.getContext(), "SHAREEEEEEEE", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setIsLiked() {
+        val db = DataBaseHandler(this)
+        val news = NewsItem(element)
+        isLiked = db.checkIfNewsExists(news)
+        if (isLiked) {
+            likeButton.setImageResource(R.drawable.star_full)
+            return
+        }
+        likeButton.setImageResource(R.drawable.star_empty)
+    }
+
+    private fun makeLikedToast() {
+        if (isLiked) {
+            Toast.makeText(MyApplication.getContext(), "Liked", Toast.LENGTH_SHORT).show()
+            return
+        }
+        Toast.makeText(MyApplication.getContext(), "Remove from liked", Toast.LENGTH_SHORT).show()
     }
 
     private fun setItemData() {
@@ -97,9 +131,14 @@ class SingleNewsActivity : AppCompatActivity() {
             val news = NewsItem(element)
             val alreadyAdded = db.checkIfNewsExists(news)
             if (alreadyAdded) {
+                db.deleteData(news)
+                setIsLiked()
+                makeLikedToast()
                 return@setOnClickListener
             }
             db.insertData(news)
+            setIsLiked()
+            makeLikedToast()
         }
     }
 }

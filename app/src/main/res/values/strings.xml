@@ -19,7 +19,9 @@
 
     <string name="card_image_desc">News image</string>
     <string name="settings" translatable="false">Settings</string>
+    <string name="share" translatable="false">Share</string>
     <string name="update" translatable="false">Update</string>
+    <string name="clean_db" translatable="false">Clean DB</string>
     <string name="select_category" translatable="false">category</string>
     <string name="select_language" translatable="false">language</string>
 

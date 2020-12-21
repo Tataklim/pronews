@@ -95,7 +95,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
 
         if (itemId == R.id.update_settings) {
-            getAndSetDataForRecyclerView();
+//            getAndSetDataForRecyclerView();
+            return true
+        }
+
+        if (itemId == R.id.delete_db_settings) {
+            val db = DataBaseHandler(this)
+            db.deleteDB()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -142,35 +148,35 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 //        }
     }
 
-    private fun getAndSetDataForRecyclerView() {
-        Log.v("KEK MAIN", "getAndSetDataForRecyclerView")
-        val newsSet: MutableList<SingleNews> = mutableListOf()
-        val temp = ApiService.create()
-        temp.news(category, country)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                Log.v("KEK WHAT SIZE", result.List.size.toString())
-                result.List.map { elem -> newsSet.add(elem) }
-                setRecyclerViewData(newsSet);
-            }, { error ->
-                error.message?.let { Log.v("Error", it) }
-                error.printStackTrace()
-            })
-    }
-
-    private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
-        Log.v("KEK WHAT", dataSet.size.toString())
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = ListAdapter { item -> itemClicked(item) }
-        viewAdapter.data = dataSet
-
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewId).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-    }
+//    private fun getAndSetDataForRecyclerView() {
+//        Log.v("KEK MAIN", "getAndSetDataForRecyclerView")
+//        val newsSet: MutableList<SingleNews> = mutableListOf()
+//        val temp = ApiService.create()
+//        temp.news(category, country)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({ result ->
+//                Log.v("KEK WHAT SIZE", result.List.size.toString())
+//                result.List.map { elem -> newsSet.add(elem) }
+//                setRecyclerViewData(newsSet);
+//            }, { error ->
+//                error.message?.let { Log.v("Error", it) }
+//                error.printStackTrace()
+//            })
+//    }
+//
+//    private fun setRecyclerViewData(dataSet: MutableList<SingleNews>) {
+//        Log.v("KEK WHAT", dataSet.size.toString())
+//        viewManager = LinearLayoutManager(this)
+//        viewAdapter = ListAdapter { item -> itemClicked(item) }
+//        viewAdapter.data = dataSet
+//
+//        recyclerView = findViewById<RecyclerView>(R.id.recyclerViewId).apply {
+//            setHasFixedSize(true)
+//            layoutManager = viewManager
+//            adapter = viewAdapter
+//        }
+//    }
 
     private fun itemClicked(item: SingleNews) {
         val intent = Intent(this, SingleNewsActivity::class.java)

@@ -12,4 +12,9 @@
         app:showAsAction="never"
         android:orderInCategory="2">
     </item>
+    <item android:id="@+id/delete_db_settings"
+        android:title="@string/clean_db"
+        app:showAsAction="never"
+        android:orderInCategory="3">
+    </item>
 </menu>
