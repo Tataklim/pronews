@@ -85,15 +85,17 @@ class HomeFragment : Fragment() {
         setCategoryButtonEventListener()
         setNewsLanguageButtonEventListener()
 
-        return root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         Handler().postDelayed({
             setWorker()
         }, 1000)
+
+        return root
     }
+
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//
+//    }
 
     override fun onStart() {
         super.onStart()

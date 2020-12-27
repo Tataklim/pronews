@@ -40,10 +40,6 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var sharedPref: SharedPreferences
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: ListAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
     private var category by Delegates.notNull<String>()
     private var country by Delegates.notNull<String>()
 
