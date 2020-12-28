@@ -72,12 +72,6 @@ class MainActivity : BaseActivity() {
         setLocale()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        PreferenceManager.getDefaultSharedPreferences(this)
-//            .unregisterOnSharedPreferenceChangeListener(this)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -92,7 +86,6 @@ class MainActivity : BaseActivity() {
         }
 
         if (itemId == R.id.update_settings) {
-//            getAndSetDataForRecyclerView();
             return true
         }
 
@@ -143,41 +136,4 @@ class MainActivity : BaseActivity() {
             setTheme(R.style.Theme_Pronews_Light_Green)
         }
     }
-
-//    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-//        when (key) {
-//            resources.getString(R.string.preference_file_key_language) -> {
-//                val defaultLanguage =
-//                    resources.getString(R.string.preference_file_key_language_default)
-//                language = sharedPref.getString(key, defaultLanguage).toString()
-//                Log.v("KEK onShared", resources.getString(R.string.preference_file_key_language))
-//            }
-//            resources.getString(R.string.preference_file_key_theme) -> {
-//                val defaultTheme =
-//                    resources.getString(R.string.preference_file_key_theme_default)
-//                theme = sharedPref.getString(key, defaultTheme).toString()
-//                var newValueTranslated = theme
-//                when(theme) {
-//                    "темный" -> newValueTranslated = "dark"
-//                    "светлый" -> newValueTranslated = "light"
-//                }
-//
-//                when(newValueTranslated) {
-//                    "dark" -> setTheme(R.style.Theme_Pronews_Dark_Green)
-//                    "light" -> setTheme(R.style.Theme_Pronews_Light_Green)
-//                }
-//                Log.v("KEK onShared", resources.getString(R.string.preference_file_key_theme))
-//            }
-//            resources.getString(R.string.preference_file_key_check_new) -> {
-//                val defaultCheckNew =
-//                    resources.getBoolean(R.bool.preference_file_key_check_new_defaults)
-//                checkNew = sharedPref.getBoolean(key, defaultCheckNew)
-//                Log.v("KEK onShared", resources.getString(R.string.preference_file_key_check_new))
-//            }
-//
-//            else -> {
-//                Log.v("KEK onShared", "Error")
-//            }
-//        }
-//    }
 }

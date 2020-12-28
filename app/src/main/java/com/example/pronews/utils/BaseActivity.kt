@@ -1,5 +1,4 @@
 package com.example.pronews.utils
-import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle

@@ -81,6 +81,7 @@ class HomeFragment : Fragment() {
         setSnackbar()
 
         swipeRefreshLayout.setOnRefreshListener {
+            setLoadingMode()
             NewsData.update(category, newsLanguage, ::hideRefresh)
             Handler().postDelayed(Runnable {
                 swipeRefreshLayout.isRefreshing = false
@@ -114,7 +115,6 @@ class HomeFragment : Fragment() {
         getAndSetDataForRecyclerView()
     }
 
-
     private fun setValuesFromSharedPref() {
         val defaultTheme = resources.getBoolean(R.bool.preference_file_key_theme_default)
         val defaultLanguage = resources.getString(R.string.preference_file_key_language_default);
@@ -125,7 +125,8 @@ class HomeFragment : Fragment() {
             sharedPref.getString(getString(R.string.preference_file_key_language), defaultLanguage)
                 .toString()
 
-        theme = sharedPref.getBoolean(getString(R.string.preference_file_key_dark_theme), defaultTheme)
+        theme =
+            sharedPref.getBoolean(getString(R.string.preference_file_key_dark_theme), defaultTheme)
 
         if (theme) {
             DEFAULT_IMAGE = DEFAULT_IMAGE_DARK
@@ -141,57 +142,59 @@ class HomeFragment : Fragment() {
     }
 
     private fun setWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
-            .build()
+        if (view != null) {
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.UNMETERED)
+                .build()
 
-        val myData: Data = workDataOf(
-            CATEGORY_ARG to category,
-            LANGUAGE_ARG to newsLanguage
-        )
+            val myData: Data = workDataOf(
+                CATEGORY_ARG to category,
+                LANGUAGE_ARG to newsLanguage
+            )
 
-        val uploadWorkRequest = OneTimeWorkRequestBuilder<RefreshWorker>()
-            .setConstraints(constraints)
-            .setInitialDelay(1, TimeUnit.SECONDS)
-            .setInputData(myData)
-            .build()
+            val uploadWorkRequest = OneTimeWorkRequestBuilder<RefreshWorker>()
+                .setConstraints(constraints)
+                .setInitialDelay(1, TimeUnit.SECONDS)
+                .setInputData(myData)
+                .build()
 
-        WorkManager
-            .getInstance(MyApplication.getContext())
-            .enqueue(uploadWorkRequest)
+            WorkManager
+                .getInstance(MyApplication.getContext())
+                .enqueue(uploadWorkRequest)
 
-        WorkManager.getInstance().getWorkInfoByIdLiveData(uploadWorkRequest.id)
-            .observe(viewLifecycleOwner, Observer { workInfo ->
-                if (workInfo != null) {
-                    when (workInfo.state) {
-                        WorkInfo.State.ENQUEUED -> {
-                            Log.v("KEK WorkManager", "Download enqueued.")
-                        }
-                        WorkInfo.State.BLOCKED -> {
-                            Log.v("KEK WorkManager", "Download blocked.")
-                        }
-                        WorkInfo.State.RUNNING -> {
-                            Log.v("KEK WorkManager", "Download running.")
+            WorkManager.getInstance().getWorkInfoByIdLiveData(uploadWorkRequest.id)
+                .observe(viewLifecycleOwner, Observer { workInfo ->
+                    if (workInfo != null) {
+                        when (workInfo.state) {
+                            WorkInfo.State.ENQUEUED -> {
+                                Log.v("KEK WorkManager", "Download enqueued.")
+                            }
+                            WorkInfo.State.BLOCKED -> {
+                                Log.v("KEK WorkManager", "Download blocked.")
+                            }
+                            WorkInfo.State.RUNNING -> {
+                                Log.v("KEK WorkManager", "Download running.")
+                            }
                         }
                     }
-                }
-                // По окончанию работы
-                if (workInfo != null && workInfo.state.isFinished) {
-                    if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                        Log.v("KEK WorkManager", "Download finished.")
-                        val successOutputData = workInfo.outputData
-                        val hasUpdates = successOutputData.getBoolean(KEY_RESULT, false)
-                        Log.v("KEK WorkManager", hasUpdates.toString())
-                        if (hasUpdates) {
-                            snackbarRefreshed.show()
+                    // По окончанию работы
+                    if (workInfo != null && workInfo.state.isFinished) {
+                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            Log.v("KEK WorkManager", "Download finished.")
+                            val successOutputData = workInfo.outputData
+                            val hasUpdates = successOutputData.getBoolean(KEY_RESULT, false)
+                            Log.v("KEK WorkManager", hasUpdates.toString())
+                            if (hasUpdates) {
+                                snackbarRefreshed.show()
+                            }
+                        } else if (workInfo.state == WorkInfo.State.FAILED) {
+                            Log.v("KEK WorkManager", "Failed")
+                        } else if (workInfo.state == WorkInfo.State.CANCELLED) {
+                            Log.v("KEK WorkManager", "cancelled")
                         }
-                    } else if (workInfo.state == WorkInfo.State.FAILED) {
-                        Log.v("KEK WorkManager", "Failed")
-                    } else if (workInfo.state == WorkInfo.State.CANCELLED) {
-                        Log.v("KEK WorkManager", "cancelled")
                     }
-                }
-            })
+                })
+        }
     }
 
     private fun setSnackbar() {
@@ -264,8 +267,6 @@ class HomeFragment : Fragment() {
 
     private fun setCategoryButtonEventListener() {
         val popupMenu = PopupMenu(MyApplication.getContext(), buttonCategory)
-        val wrapper: Context = ContextThemeWrapper(context, R.style.Theme_Pronews_Light_Green_Popup)
-//        if (e)
         popupMenu.inflate(R.menu.popupmenu_category)
 
         popupMenu.setOnMenuItemClickListener {
