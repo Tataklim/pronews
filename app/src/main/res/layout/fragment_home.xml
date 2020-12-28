@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_layout_id"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.HomeFragment"
+    android:padding="8dp">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
@@ -36,21 +37,25 @@
                         android:orientation="horizontal"
                         android:gravity="center">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:id="@+id/button_category_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:text="@string/select_category"
-                            android:textSize="20sp" />
+                            android:textSize="22sp"
+                            app:strokeColor="?attr/colorPrimary"/>
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:id="@+id/button_news_language_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:text="@string/select_language"
-                            android:textSize="20sp" />
+                            android:textSize="22sp"
+                            app:strokeColor="?attr/colorPrimary"/>
                     </LinearLayout>
 
                     <RelativeLayout

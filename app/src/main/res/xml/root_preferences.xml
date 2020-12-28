@@ -11,8 +11,8 @@
             app:useSimpleSummaryProvider="true" />
         <ListPreference
             app:defaultValue="@string/preference_file_key_theme_default"
-            app:entries="@array/themes"
-            app:entryValues="@array/themes"
+            app:entries="@array/styles"
+            app:entryValues="@array/styles"
             app:key="@string/preference_file_key_theme"
             app:title="@string/settings_theme_desc"
             app:useSimpleSummaryProvider="true" />

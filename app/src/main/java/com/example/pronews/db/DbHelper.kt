@@ -33,9 +33,9 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                     "$COL_TITLE VARCHAR(256),$COL_URL VARCHAR(256))"
         db?.execSQL(createTable)
     }
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        //onCreate(db);
-    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {}
+
     fun insertData(item: NewsItem) {
         val database = this.writableDatabase
 
@@ -108,7 +108,9 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
     fun checkIfNewsExists(item: NewsItem): Boolean {
         val db = this.readableDatabase
-        val title = item.title
+
+        // Удаление кавычек из заголовка - иначе проблемы со вставкой данных в бд
+        val title = item.title!!.replace("\"", "");
         val query = "Select * from $TABLENAME where $COL_TITLE = \"$title\""
         val result = db.rawQuery(query, null)
         return result.count != 0

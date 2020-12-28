@@ -5,7 +5,7 @@
         <item>ru</item>
     </string-array>
 
-    <string-array name="themes">
+    <string-array name="styles">
         <item>светлый</item>
         <item>темный</item>
     </string-array>

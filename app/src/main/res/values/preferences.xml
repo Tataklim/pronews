@@ -4,7 +4,7 @@
     <string name="preference_file_key_language">language</string>
     <string name="preference_file_key_language_default">ru</string>
     <string name="preference_file_key_theme">theme</string>
-    <string name="preference_file_key_theme_default">dark</string>
+    <string name="preference_file_key_theme_default" translatable="false">dark</string>
     <string name="preference_file_key_check_new">check_new</string>
     <bool name="preference_file_key_check_new_defaults">true</bool>
 

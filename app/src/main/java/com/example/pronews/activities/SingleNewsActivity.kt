@@ -1,19 +1,22 @@
 package com.example.pronews.activities
 
 import DataBaseHandler
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Telephony
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.pronews.R
-import com.example.pronews.adapters.DEFAULT_IMAGE
 import com.example.pronews.db.NewsItem
+import com.example.pronews.fragments.DEFAULT_IMAGE
 import com.example.pronews.models.SingleNews
 import com.example.pronews.utils.MyApplication
 import com.example.pronews.utils.SerializedSingleNews
@@ -26,13 +29,19 @@ import kotlin.properties.Delegates
 
 class SingleNewsActivity : AppCompatActivity() {
 
+    private lateinit var sharedPref: SharedPreferences
+    private var language by Delegates.notNull<String>()
+    private var theme by Delegates.notNull<String>()
+
     private lateinit var element: SingleNews
     private lateinit var likeButton: FloatingActionButton
     private var isLiked by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setValuesFromSharedPref()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_news)
+
         setSupportActionBar(findViewById(R.id.toolbar))
         likeButton = findViewById<FloatingActionButton>(R.id.like_button)
 
@@ -53,9 +62,15 @@ class SingleNewsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemId = item.itemId
         if (itemId == R.id.share_settings) {
-            val sendIntent = Intent(Intent.ACTION_VIEW)
-            sendIntent.putExtra("sms_body", element.url)
-            sendIntent.type = "vnd.android-dir/mms-sms"
+            val defaultSmsPackageName =
+                Telephony.Sms.getDefaultSmsPackage(MyApplication.getContext()) //Need to change the build to API 19
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.type = "text/plain"
+            val smsText = "Нашла классную новость, посмотри - " + element.url
+            sendIntent.putExtra(Intent.EXTRA_TEXT, smsText)
+            if (defaultSmsPackageName != null) {
+                sendIntent.setPackage(defaultSmsPackageName)
+            }
             startActivity(sendIntent)
             return true
         }
@@ -139,5 +154,29 @@ class SingleNewsActivity : AppCompatActivity() {
             setIsLiked()
             makeLikedToast()
         }
+    }
+
+    private fun setValuesFromSharedPref() {
+        sharedPref = this.getSharedPreferences(
+            getString(R.string.preference_file_key), Context.MODE_PRIVATE
+        )
+
+        val defaultTheme = resources.getString(R.string.preference_file_key_theme_default)
+        val defaultLanguage = resources.getString(R.string.preference_file_key_language_default);
+
+        language =
+            sharedPref.getString(getString(R.string.preference_file_key_language), defaultLanguage)
+                .toString()
+
+        theme = sharedPref.getString(
+            getString(R.string.preference_file_key_theme),
+            defaultTheme
+        ).toString()
+
+        when (theme) {
+            "dark" -> setTheme(R.style.Theme_Pronews_Dark_Green_NoActionBar)
+            "light" -> setTheme(R.style.Theme_Pronews_Light_Green_NoActionBar)
+        }
+
     }
 }

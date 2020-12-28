@@ -34,8 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="4dp">
+            android:padding="16dp"
+            app:cardCornerRadius="4dp"
+            app:cardBackgroundColor="?attr/backgroundCardColorCustom">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,7 +56,8 @@
                         android:layout_gravity="start"
                         android:textSize="14sp"
                         android:text="@string/single_category"
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        android:textColor="?attr/descriptionTextColor" />
 
                     <TextView
                         android:id="@+id/singleCategoryId"
@@ -63,7 +65,8 @@
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:textSize="14sp"
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        android:textColor="?attr/titleTextColor" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -79,7 +82,8 @@
                         android:layout_gravity="start"
                         android:textSize="14sp"
                         android:text="@string/single_language"
-                        android:padding="8dp" />
+                        android:padding="8dp"
+                        android:textColor="?attr/descriptionTextColor" />
 
                     <TextView
                         android:id="@+id/singleCountryId"
@@ -87,7 +91,8 @@
                         android:layout_height="40dp"
                         android:layout_gravity="start"
                         android:textSize="14sp"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:textColor="?attr/titleTextColor" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -103,7 +108,8 @@
                         android:layout_gravity="start"
                         android:textSize="14sp"
                         android:text="@string/single_author"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:textColor="?attr/descriptionTextColor" />
 
                     <TextView
                         android:id="@+id/singleAuthorId"
@@ -111,7 +117,8 @@
                         android:layout_height="40dp"
                         android:layout_gravity="start"
                         android:textSize="14sp"
-                        android:padding="8dp"/>
+                        android:padding="8dp"
+                        android:textColor="?attr/titleTextColor" />
                 </LinearLayout>
 
 
@@ -124,7 +131,8 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             android:padding="16dp"
-            app:cardCornerRadius="4dp">
+            app:cardCornerRadius="4dp"
+            app:cardBackgroundColor="?attr/backgroundCardColorCustom">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,8 +144,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:textSize="20sp"
-                    android:padding="8dp"/>
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:textColor="?attr/titleTextColor" />
 
                 <TextView
                     android:id="@+id/singleDate"
@@ -145,7 +154,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textSize="12sp"
-                    android:padding="8dp"/>
+                    android:padding="8dp"
+                    android:textColor="?attr/titleTextColor" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

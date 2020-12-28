@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorOnSurface" format="color">#9C27B0</attr>
+    <attr name="backgroundColorCustom" format="color">#00BCD4</attr>
+    <attr name="backgroundCardColorCustom" format="color">#00BCD4</attr>
+
+
+    <attr name="descriptionTextColor" format="color">#00BCD4</attr>
+
+<!--    <attr name="colorPrimaryVariant">#0077c2</attr>-->
+<!--    <attr name="colorOnPrimary">#80d6ff</attr>-->
+<!--    &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+<!--    <attr name="colorSecondary">#fbc02d</attr>-->
+<!--    <attr name="colorSecondaryVariant">#c49000</attr>-->
+<!--    <attr name="colorOnSecondary">#534C4C</attr>-->
+</resources>

@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item android:id="@+id/action_settings"
-        android:title="@string/settings"
-        app:showAsAction="never"
-        android:orderInCategory="1">
+        android:title="@string/settings">
     </item>
     <item android:id="@+id/update_settings"
         android:title="@string/update"

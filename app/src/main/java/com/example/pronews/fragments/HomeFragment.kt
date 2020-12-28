@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,15 @@ import com.google.android.material.snackbar.Snackbar
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
+var DEFAULT_IMAGE =
+    "https://w7.pngwing.com/pngs/503/7/png-transparent-camera-euclidean-green-computer-file-material-green-camera-purple-violet-rectangle.png"
+
+var DEFAULT_IMAGE_LIGHT =
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc5_p-BTfBWbpSrZ9UuJE0TbH_PF6w4YOWyQ&usqp=CAU"
+
+
+var DEFAULT_IMAGE_DARK =
+    "https://thumbs.dreamstime.com/b/%D0%B1%D0%B5%D0%BB%D1%8B%D0%B9-%D1%81%D0%B8%D0%BB%D1%83%D1%8D%D1%82-%D0%BA%D0%B0%D0%BC%D0%B5%D1%80%D1%8B-%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F-%D0%BD%D0%B0-%D1%87%D0%B5%D1%80%D0%BD%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-157275481.jpg"
 
 class HomeFragment : Fragment() {
 
@@ -50,6 +60,8 @@ class HomeFragment : Fragment() {
 
     private var category by Delegates.notNull<String>()
     private var newsLanguage by Delegates.notNull<String>()
+    private var language by Delegates.notNull<String>()
+    private var theme by Delegates.notNull<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,6 +93,24 @@ class HomeFragment : Fragment() {
 
         category = ""
         newsLanguage = ""
+
+        val defaultTheme = resources.getString(R.string.preference_file_key_theme_default)
+        val defaultLanguage = resources.getString(R.string.preference_file_key_language_default);
+
+        language =
+            sharedPref.getString(getString(R.string.preference_file_key_language), defaultLanguage)
+                .toString()
+
+        theme = sharedPref.getString(
+            getString(R.string.preference_file_key_theme),
+            defaultTheme
+        ).toString()
+
+        if (theme == defaultTheme) {
+            DEFAULT_IMAGE = DEFAULT_IMAGE_DARK
+        } else {
+            DEFAULT_IMAGE = DEFAULT_IMAGE_LIGHT
+        }
 
         setCategoryButtonEventListener()
         setNewsLanguageButtonEventListener()
@@ -226,6 +256,8 @@ class HomeFragment : Fragment() {
 
     private fun setCategoryButtonEventListener() {
         val popupMenu = PopupMenu(MyApplication.getContext(), buttonCategory)
+        val wrapper: Context = ContextThemeWrapper(context, R.style.Theme_Pronews_Light_Green_Popup)
+//        if (e)
         popupMenu.inflate(R.menu.popupmenu_category)
 
         popupMenu.setOnMenuItemClickListener {

@@ -10,5 +10,4 @@
         android:id="@+id/navigation_liked"
         android:icon="@android:drawable/btn_star"
         android:title="@string/title_liked" />
-
 </menu>

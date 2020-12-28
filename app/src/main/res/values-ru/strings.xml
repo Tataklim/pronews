@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Новост</string>
+    <string name="app_name">Новости</string>
     <string name="title_activity_settings">Настройкикек</string>
 
     <string name="no_data_available">Нет данных</string>
