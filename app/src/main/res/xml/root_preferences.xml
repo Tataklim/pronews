@@ -9,13 +9,11 @@
             app:key="@string/preference_file_key_language"
             app:title="@string/settings_language_desc"
             app:useSimpleSummaryProvider="true" />
-        <ListPreference
-            app:defaultValue="@string/preference_file_key_theme_default"
-            app:entries="@array/styles"
-            app:entryValues="@array/styles"
-            app:key="@string/preference_file_key_theme"
+        <CheckBoxPreference
             app:title="@string/settings_theme_desc"
-            app:useSimpleSummaryProvider="true" />
+            app:summaryOn="@string/settings_dark_theme_on"
+            app:summaryOff="@string/settings_dark_theme_off"
+            app:key="@string/preference_file_key_dark_theme"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_network_header">

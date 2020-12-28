@@ -4,11 +4,6 @@
         <item>ru</item>
     </string-array>
 
-    <string-array name="styles">
-        <item>light</item>
-        <item>dark</item>
-    </string-array>
-
     <string-array name="categories">
         <item>general</item>
         <item>business</item>

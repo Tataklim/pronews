@@ -7,12 +7,15 @@
     <string name="settings_general_header">Общие настройки</string>
     <string name="settings_network_header">Настройки сети</string>
 
-    <string name="settings_theme_desc">тема</string>
-    <string name="settings_language_desc">язык</string>
-    <string name="settings_check_new_desc">проверка обновлений</string>
+    <string name="settings_theme_desc">Темная тема</string>
+    <string name="settings_language_desc">Язык</string>
+    <string name="settings_check_new_desc">Проверка обновлений</string>
 
     <string name="settings_check_new_on">вкл</string>
     <string name="settings_check_new_off">выкл</string>
+
+    <string name="settings_dark_theme_on">вкл</string>
+    <string name="settings_dark_theme_off">выкл</string>
 
     <string name="general">general</string>
     <string name="business">business</string>

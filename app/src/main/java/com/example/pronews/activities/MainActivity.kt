@@ -29,6 +29,7 @@ import com.example.pronews.adapters.ListAdapter
 import com.example.pronews.db.NewsItem
 import com.example.pronews.models.SingleNews
 import com.example.pronews.network.ApiService
+import com.example.pronews.utils.BaseActivity
 import com.example.pronews.utils.MyApplication
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,14 +38,14 @@ import java.util.*
 import kotlin.properties.Delegates
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var sharedPref: SharedPreferences
 
     private var category by Delegates.notNull<String>()
     private var country by Delegates.notNull<String>()
 
     private var language by Delegates.notNull<String>()
-    private var theme by Delegates.notNull<String>()
+    private var theme by Delegates.notNull<Boolean>()
     private var checkNew by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,7 +117,8 @@ class MainActivity : AppCompatActivity() {
         )
 //        sharedPref.registerOnSharedPreferenceChangeListener(this)
 
-        val defaultTheme = resources.getString(R.string.preference_file_key_theme_default)
+        val defaultTheme = resources.getBoolean(R.bool.preference_file_key_theme_default)
+        Log.v("LOL size defaultTheme", defaultTheme.toString())
         val defaultCheckNew =
             resources.getBoolean(R.bool.preference_file_key_check_new_defaults)
         val defaultLanguage = resources.getString(R.string.preference_file_key_language_default);
@@ -130,23 +132,15 @@ class MainActivity : AppCompatActivity() {
             defaultCheckNew
         );
 
-        theme = sharedPref.getString(
-            getString(R.string.preference_file_key_theme),
-            defaultTheme
-        ).toString()
-
+        theme = sharedPref.getBoolean(getString(R.string.preference_file_key_dark_theme), defaultTheme)
+        Log.v("LOL size theme", theme.toString())
         category = ""
         country = ""
 
-        var newValueTranslated = theme
-        when(theme) {
-            "темный" -> newValueTranslated = "dark"
-            "светлый" -> newValueTranslated = "light"
-        }
-
-        when(newValueTranslated) {
-            "dark" -> setTheme(R.style.Theme_Pronews_Dark_Green)
-            "light" -> setTheme(R.style.Theme_Pronews_Light_Green)
+        if (theme) {
+            setTheme(R.style.Theme_Pronews_Dark_Green)
+        } else {
+            setTheme(R.style.Theme_Pronews_Light_Green)
         }
     }
 

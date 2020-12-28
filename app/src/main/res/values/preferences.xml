@@ -3,10 +3,12 @@
     <string name="preference_file_key">com.example.pronews.shared.pref</string>
     <string name="preference_file_key_language">language</string>
     <string name="preference_file_key_language_default">ru</string>
-    <string name="preference_file_key_theme">theme</string>
-    <string name="preference_file_key_theme_default" translatable="false">dark</string>
+
     <string name="preference_file_key_check_new">check_new</string>
     <bool name="preference_file_key_check_new_defaults">true</bool>
+
+    <string name="preference_file_key_dark_theme">theme</string>
+    <bool name="preference_file_key_theme_default" translatable="false">true</bool>
 
     <string name="preference_file_key_category" translatable="false">category</string>
     <string name="preference_file_key_category_default" translatable="false">general</string>

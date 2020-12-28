@@ -8,12 +8,15 @@
     <string name="settings_general_header">General settings</string>
     <string name="settings_network_header">Network settings</string>
 
-    <string name="settings_theme_desc">theme</string>
-    <string name="settings_language_desc">language</string>
-    <string name="settings_check_new_desc">auto check updates</string>
+    <string name="settings_theme_desc">Dark theme</string>
+    <string name="settings_language_desc">Language</string>
+    <string name="settings_check_new_desc">Auto check updates</string>
 
     <string name="settings_check_new_on">on</string>
     <string name="settings_check_new_off">off</string>
+
+    <string name="settings_dark_theme_on">on</string>
+    <string name="settings_dark_theme_off">off</string>
 
 
     <string name="card_image_desc">News image</string>

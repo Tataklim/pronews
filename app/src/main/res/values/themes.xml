@@ -74,10 +74,6 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-
-
-
-
     <style name="Theme.Pronews.Dark.Green.NoActionBar" parent="Theme.Pronews.Dark.Green">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>

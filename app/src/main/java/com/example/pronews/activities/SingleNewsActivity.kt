@@ -31,7 +31,7 @@ class SingleNewsActivity : AppCompatActivity() {
 
     private lateinit var sharedPref: SharedPreferences
     private var language by Delegates.notNull<String>()
-    private var theme by Delegates.notNull<String>()
+    private var theme by Delegates.notNull<Boolean>()
 
     private lateinit var element: SingleNews
     private lateinit var likeButton: FloatingActionButton
@@ -161,22 +161,18 @@ class SingleNewsActivity : AppCompatActivity() {
             getString(R.string.preference_file_key), Context.MODE_PRIVATE
         )
 
-        val defaultTheme = resources.getString(R.string.preference_file_key_theme_default)
+        val defaultTheme = resources.getBoolean(R.bool.preference_file_key_theme_default)
         val defaultLanguage = resources.getString(R.string.preference_file_key_language_default);
 
         language =
             sharedPref.getString(getString(R.string.preference_file_key_language), defaultLanguage)
                 .toString()
 
-        theme = sharedPref.getString(
-            getString(R.string.preference_file_key_theme),
-            defaultTheme
-        ).toString()
-
-        when (theme) {
-            "dark" -> setTheme(R.style.Theme_Pronews_Dark_Green_NoActionBar)
-            "light" -> setTheme(R.style.Theme_Pronews_Light_Green_NoActionBar)
+        theme = sharedPref.getBoolean(getString(R.string.preference_file_key_dark_theme), defaultTheme)
+        if (theme) {
+            setTheme(R.style.Theme_Pronews_Dark_Green_NoActionBar)
+        } else {
+            setTheme(R.style.Theme_Pronews_Light_Green_NoActionBar)
         }
-
     }
 }

@@ -61,7 +61,8 @@ class HomeFragment : Fragment() {
     private var category by Delegates.notNull<String>()
     private var newsLanguage by Delegates.notNull<String>()
     private var language by Delegates.notNull<String>()
-    private var theme by Delegates.notNull<String>()
+    private var theme by Delegates.notNull<Boolean>()
+    private var checkNew by Delegates.notNull<Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,42 +95,49 @@ class HomeFragment : Fragment() {
         category = ""
         newsLanguage = ""
 
-        val defaultTheme = resources.getString(R.string.preference_file_key_theme_default)
+        setValuesFromSharedPref()
+
+        setCategoryButtonEventListener()
+        setNewsLanguageButtonEventListener()
+
+        if (checkNew) {
+            Handler().postDelayed({
+                setWorker()
+            }, 1000)
+        }
+
+        return root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getAndSetDataForRecyclerView()
+    }
+
+
+    private fun setValuesFromSharedPref() {
+        val defaultTheme = resources.getBoolean(R.bool.preference_file_key_theme_default)
         val defaultLanguage = resources.getString(R.string.preference_file_key_language_default);
+        val defaultCheckNew =
+            resources.getBoolean(R.bool.preference_file_key_check_new_defaults)
 
         language =
             sharedPref.getString(getString(R.string.preference_file_key_language), defaultLanguage)
                 .toString()
 
-        theme = sharedPref.getString(
-            getString(R.string.preference_file_key_theme),
-            defaultTheme
-        ).toString()
+        theme = sharedPref.getBoolean(getString(R.string.preference_file_key_dark_theme), defaultTheme)
 
-        if (theme == defaultTheme) {
+        if (theme) {
             DEFAULT_IMAGE = DEFAULT_IMAGE_DARK
         } else {
             DEFAULT_IMAGE = DEFAULT_IMAGE_LIGHT
         }
 
-        setCategoryButtonEventListener()
-        setNewsLanguageButtonEventListener()
+        checkNew = sharedPref.getBoolean(
+            getString(R.string.preference_file_key_check_new),
+            defaultCheckNew
+        );
 
-        Handler().postDelayed({
-            setWorker()
-        }, 1000)
-
-        return root
-    }
-
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//
-//    }
-
-    override fun onStart() {
-        super.onStart()
-        getAndSetDataForRecyclerView()
     }
 
     private fun setWorker() {
